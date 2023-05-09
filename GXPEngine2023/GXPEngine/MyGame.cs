@@ -15,6 +15,8 @@ public class MyGame : Game {
 		AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100)));
 
 		AddChild(new MapObject(30, new Vec2(400, 400)));
+
+        Console.WriteLine("Pee pee poo poo");
     }
 
 

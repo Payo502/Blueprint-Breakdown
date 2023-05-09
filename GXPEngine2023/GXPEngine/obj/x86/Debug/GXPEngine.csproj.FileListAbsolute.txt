@@ -6,3 +6,11 @@ C:\Users\patgh\Documents\SaxionCMGT\Term 4\Project 4\GXPEngine2023\GXPEngine\obj
 C:\Users\patgh\Documents\SaxionCMGT\Term 4\Project 4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
 C:\Users\patgh\Documents\SaxionCMGT\Term 4\Project 4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.exe
 C:\Users\patgh\Documents\SaxionCMGT\Term 4\Project 4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\bin\Debug\GXPEngine.exe.config
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\bin\Debug\GXPEngine.exe
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\bin\Debug\GXPEngine.pdb
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.AssemblyReference.cache
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.SuggestedBindingRedirects.cache
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.exe
+C:\Fork Git\Pe1\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.pdb
