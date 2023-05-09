@@ -33,8 +33,7 @@ public class MyGame : Game
                 AddChild(new MapObject(30, new Vec2(200, 200)));
                 //AddChild(new MapObject(30, new Vec2(400, 200)));
 
-                //AddChild(new BouncingPad(new Vec2(300,500), new Vec2(600,500)));
-                AddChild(new Fan(new Vec2(600, 470), new Vec2(30, 30), new Vec2(-1, 0)));
+                AddChild(new BouncingPad(new Vec2(300,500), new Vec2(600,500)));
 
 
                 break;
