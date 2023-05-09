@@ -9,6 +9,7 @@ using Physics;
 
 public class MapObject : CircleBase
 {
+    public List<Fan> fans = new List<Fan>();
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         isMoving = moving;
@@ -37,7 +38,6 @@ public class MapObject : CircleBase
             iteration++;
         }
 
-
         base.Move();
         UpdateScreenPosition();
     }
@@ -64,6 +64,7 @@ public class MapObject : CircleBase
 
     void ResolveCollisions(CollisionInfo pCol)
     {
+        //Console.WriteLine("ResolveCollisions Called");
         if (pCol.other.owner is Line)
         {
 
@@ -83,6 +84,26 @@ public class MapObject : CircleBase
                 return;
             }
 
+        }
+
+        if (pCol.other.owner is BouncingPad)
+        {
+            Console.WriteLine("BouncingPad collision detected");
+            BouncingPad bouncePad = (BouncingPad)pCol.other.owner;
+            float bounceForce = bouncePad.GetBounceForce();
+            Console.WriteLine("Before velocity update: " + velocity);
+            velocity.Reflect(_bounciness, pCol.normal);
+            velocity += pCol.normal * bounceForce;
+            Console.WriteLine("After velocity update: " + velocity);
+            return;
+        }
+
+        if (pCol.other.owner is Fan)
+        {
+            Console.WriteLine("Collision with fan");
+            Fan fan = (Fan)pCol.other.owner;
+            fan.Push(pCol);
+            return;
         }
 
 

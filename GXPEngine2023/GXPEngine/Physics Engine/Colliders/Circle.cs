@@ -17,7 +17,7 @@ namespace Physics
         int _radius;
         public Circle(GameObject pOwner, Vec2 pPosition, int pRadius) : base(pOwner, pPosition)
         {
-            _radius= pRadius;
+            _radius = pRadius;
         }
 
 
@@ -31,10 +31,33 @@ namespace Physics
             {
                 return Overlaps((LineSegment)other);
             }
+            else if (other is AABB)
+            {
+                return Overlaps((AABB)other);
+            }
             else
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public bool Overlaps(AABB other)
+        {
+            Vec2 circleDistance;
+            circleDistance.x = Mathf.Abs(position.x - other.position.x);
+            circleDistance.y = Mathf.Abs(position.y - other.position.y);
+
+            if (circleDistance.x > (other.width / 2 + radius)) { return false; }
+            if (circleDistance.y > (other.height / 2 + radius)) { return false; }
+
+            if (circleDistance.x <= (other.width / 2)) { return true; }
+            if (circleDistance.y <= (other.height / 2)) { return true; }
+
+            float cornerDistanceSquared = Mathf.Pow(circleDistance.x - other.width / 2, 2) +
+                                          Mathf.Pow(circleDistance.y - other.height / 2, 2);
+
+            return (cornerDistanceSquared <= Mathf.Pow(radius, 2));
+
         }
 
         public bool Overlaps(Circle other)
@@ -46,7 +69,7 @@ namespace Physics
         public bool Overlaps(LineSegment other)//works as an overlap with a line not with a segment
         {
             float dist = other.CalculateDistanceSegment(position);
-            return (dist < radius&&dist>-radius);
+            return (dist < radius && dist > -radius);
         }
 
 
@@ -60,12 +83,16 @@ namespace Physics
             {
                 return GetEarliestCollision((Circle)other, velocity);
             }
-            else if (other is LineSegment) {    
-                return GetEarliestCollision((LineSegment)other,velocity);
-            }    
+            else if (other is LineSegment)
+            {
+                return GetEarliestCollision((LineSegment)other, velocity);
+            }
             else
+            {
                 throw new NotImplementedException();
-            
+            }
+                
+
         }
 
         CollisionInfo GetEarliestCollision(AABB other, Vec2 velocity)
@@ -73,20 +100,21 @@ namespace Physics
             return new CollisionInfo(new Vec2(Mathf.Sign(velocity.x), 0), other, 0);
         }
 
-        CollisionInfo GetEarliestCollision(Circle other, Vec2 velocity) 
+        CollisionInfo GetEarliestCollision(Circle other, Vec2 velocity)
         {
             Vec2 relativePosition = position - other.position;
-            if (relativePosition.Length() < radius + other.radius){
+            if (relativePosition.Length() < radius + other.radius)
+            {
 
                 Vec2 oldPosition = position - velocity;
-                float timeOfImpact = CalculateBallTimeOfImpact(other,velocity);
+                float timeOfImpact = CalculateBallTimeOfImpact(other, velocity);
 
                 if (timeOfImpact < 0 || timeOfImpact > 1)
                     return null;
 
                 Vec2 POI = oldPosition + velocity * timeOfImpact;
                 Vec2 unitNormal = (POI - other.position).Normalized();
-                return(new CollisionInfo(unitNormal, other, timeOfImpact));
+                return (new CollisionInfo(unitNormal, other, timeOfImpact));
             }
             return null;
         }
@@ -98,7 +126,7 @@ namespace Physics
             if (ballDistance < this.radius)
             {
 
-                float timeOfImpact = CalculateLineTimeOfImpact(other,velocity);
+                float timeOfImpact = CalculateLineTimeOfImpact(other, velocity);
                 if (timeOfImpact < 0 || timeOfImpact > 1)
                     return null;
 
@@ -106,16 +134,16 @@ namespace Physics
                 Vec2 normal = segmentVector.Normal();
                 float distance = FindDistance(timeOfImpact, other, velocity);
                 if (distance > 0 && distance < other.GetSegmentVector().Length())
-                    return(new CollisionInfo(normal, other, timeOfImpact));
+                    return (new CollisionInfo(normal, other, timeOfImpact));
             }
 
             return null;
         }
 
-        float FindDistance(float pTimeOfImpact, LineSegment pLine,Vec2 velocity)
+        float FindDistance(float pTimeOfImpact, LineSegment pLine, Vec2 velocity)
         {
             MyGame myGame = (MyGame)Game.main;
-            Vec2 POI = (position-velocity) + velocity * pTimeOfImpact;
+            Vec2 POI = (position - velocity) + velocity * pTimeOfImpact;
             Vec2 vec = POI - pLine.start;
             Vec2 segmentVector = pLine.GetSegmentVector();
             segmentVector.Normalize();
@@ -123,10 +151,10 @@ namespace Physics
         }
 
 
-        float CalculateBallTimeOfImpact(Circle mover,Vec2 velocity)
+        float CalculateBallTimeOfImpact(Circle mover, Vec2 velocity)
         {
 
-            Vec2 u = ((position-velocity) - mover.position);
+            Vec2 u = ((position - velocity) - mover.position);
             float a = Mathf.Pow(velocity.Length(), 2);
             float b = 2 * u.Dot(velocity);
             float c = Mathf.Pow(u.Length(), 2) - Mathf.Pow(radius + mover.radius, 2);
@@ -141,8 +169,8 @@ namespace Physics
                     return -1f;
             }
 
-            if (a ==0f)
-                return -1f; 
+            if (a == 0f)
+                return -1f;
 
             if (D < 0f)
                 return -1f;
@@ -156,7 +184,7 @@ namespace Physics
 
         }
 
-        public float CalculateLineTimeOfImpact(LineSegment other,Vec2 velocity)
+        public float CalculateLineTimeOfImpact(LineSegment other, Vec2 velocity)
         {
             MyGame myGame = (MyGame)Game.main;
             Vec2 oldPosition = position - velocity;
