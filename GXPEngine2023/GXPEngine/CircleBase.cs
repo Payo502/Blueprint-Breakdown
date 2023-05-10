@@ -7,23 +7,26 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
+
 using Physics;
 
 public class CircleBase : EasyDraw
 {
     public ColliderManager engine;
     public Collider myCollider;
-    protected Vec2 position;
+    public Vec2 position;
     protected Vec2 oldPosition;
     public Vec2 velocity;
     protected int radius;
-    protected float bounciness = 0.2f;
+    protected float bounciness = 0.99f;
+
+    protected Vec2 gravity = new Vec2(0, 0.5f);
     public float _bounciness
     {
         get { return bounciness; }
     }
 
-    protected float friction = 0.97f;
+    protected float friction = 0.98f;
     public bool isMoving = true;
     public float Mass
     {
@@ -64,6 +67,10 @@ public class CircleBase : EasyDraw
 
     protected virtual void Update()
     {
+        if (isMoving)
+        {
+            velocity += gravity;
+        }
         velocity *= friction;
         Move();
     }
@@ -103,7 +110,8 @@ public class CircleBase : EasyDraw
 
             }
         }
-
+        //gravity 
+        
 
     }
 
@@ -113,6 +121,7 @@ public class CircleBase : EasyDraw
         x = myCollider.position.x;
         y = myCollider.position.y;
         position.SetXY(x, y);
+        
     }
 
     protected virtual void NewtonLawsBalls(CircleBase pOther, CollisionInfo pCol)

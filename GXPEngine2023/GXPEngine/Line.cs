@@ -43,7 +43,11 @@ public class Line : EasyDraw
         Clear(Color.Empty);
         StrokeWeight(0);//was 0
         Line(start.x, start.y, end.x, end.y);
-
+    }
+    public void RemoveColliders()
+    {
+        foreach (Physics.Collider col in colliders)
+            engine.RemoveSolidCollider(col);
     }
 
     void Rotate()
@@ -67,6 +71,7 @@ public class Line : EasyDraw
 
         Draw();
     }
+
 
     void Update()
     {
