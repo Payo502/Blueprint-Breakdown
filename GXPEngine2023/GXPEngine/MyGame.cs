@@ -7,8 +7,12 @@ public class MyGame : Game
 {
 
     int startLevelNumber = 1;
+
+    List<MapObject> movers;
+
     public MyGame() : base(800, 600, false)
     {
+        movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
     }
 
@@ -25,15 +29,22 @@ public class MyGame : Game
                 //AddChild(new Player(new Vec2(200, 200), 30));
 
                 AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
-                AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
+                //AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
                 AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
                 AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
-                AddChild(new MapObject(30, new Vec2(200, 200)));
-                //AddChild(new MapObject(30, new Vec2(400, 200)));
+                MapObject mapObject1 = new MapObject(30, new Vec2(200, 200));
+                AddChild(mapObject1);
+                movers.Add(mapObject1);
+                
+                Claw claw = new Claw(mapObject1);
+                claw.SetXY(100, 100);
+                AddChild(claw);
 
                 AddChild(new BouncingPad(new Vec2(300,500), new Vec2(600,500)));
+                AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
+                //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
 
 
                 break;
@@ -62,11 +73,30 @@ public class MyGame : Game
             else if (child is MapObject mapObject)
             {
                 mapObject.engine.RemoveSolidCollider(mapObject.myCollider);
+                movers.Remove(mapObject);
+            }
+            else if(child is BouncingPad bouncingPad)
+            {
+                bouncingPad.RemoveColliders();
             }
 
             child.Destroy();
         }
         children.Clear();
+    }
+
+    public int GetNumberOfMovers()
+    {
+        return movers.Count;
+    }
+
+    public MapObject GetMover(int index)
+    {
+        if (index >= 0 && index < movers.Count)
+        {
+            return movers[index];
+        }
+        return null;
     }
 
 
@@ -76,7 +106,7 @@ public class MyGame : Game
         {
             LoadLevel(startLevelNumber);
         }
-        if (Input.GetKeyDown(Key.Q))
+        if (Input.GetKeyDown(Key.ONE))
         {
             startLevelNumber++;
         }

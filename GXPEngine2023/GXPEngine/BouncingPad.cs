@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
@@ -12,13 +13,14 @@ public class BouncingPad : EasyDraw
 {
     public Vec2 start;
     public Vec2 end;
-    Vec2 rotationOrigin;
-    public readonly bool isRotating = false;
-    public readonly int rotationEachFrame = 1;
 
     public float bounceForce;
 
-    public uint lineWidth = 1;
+    private bool followingMouse = false;
+
+    private Vec2 center;
+
+    public int lineWidth = 1;
 
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
@@ -27,7 +29,7 @@ public class BouncingPad : EasyDraw
     {
         start = pStart;
         end = pEnd;
-        rotationOrigin = (start + end) / 2;
+        center = (start + end) / 2f;
         Draw();
         colliders.Add(new Physics.LineSegment(this, start, end));
         colliders.Add(new Physics.LineSegment(this, end, start));
@@ -49,9 +51,9 @@ public class BouncingPad : EasyDraw
     {
         Clear(Color.Empty);
         Stroke(0, 255, 0);
-        StrokeWeight(0);//was 0
+        StrokeWeight(2);//was 0
         Line(start.x, start.y, end.x, end.y);
-        
+
     }
 
     public void RemoveColliders()
@@ -60,23 +62,60 @@ public class BouncingPad : EasyDraw
             engine.RemoveSolidCollider(col);
     }
 
-    public void Bounce(CollisionInfo pCol)
+    void RotateToAngle(float targetAngle)
     {
-        Console.WriteLine("Bounce method called");
+        center = (start + end) / 2f;
+        float currentAngle = start.GetAngleDegreesTwoPoints(center);
+        float angleDifference = targetAngle - currentAngle;
 
-        if (pCol.other.owner is MapObject)
+        start.RotateAroundDegrees(center, angleDifference);
+        end.RotateAroundDegrees(center, angleDifference);
+
+        foreach (Physics.Collider col in colliders)
         {
-            CircleBase otherObject = (CircleBase)pCol.other.owner;
-            Console.WriteLine("Before velocity update: " + otherObject.velocity);
-            otherObject.velocity.Reflect(otherObject._bounciness, pCol.normal);
-            otherObject.velocity += pCol.normal * bounceForce;
-            Console.WriteLine("After velocity update: " + otherObject.velocity);
-            Console.WriteLine(otherObject.velocity);
+            if (col is Circle)
+            {
+                col.position.RotateAroundDegrees(center, angleDifference);
+            }
+            else
+            {
+                ((LineSegment)col).start.RotateAroundDegrees(center, angleDifference);
+                ((LineSegment)col).end.RotateAroundDegrees(center, angleDifference);
+            }
         }
+
+        Draw();
+
     }
 
     void Update()
     {
+
+        Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
+        float distanceToMouse = (center - mousePos).Length();
+        if (distanceToMouse < 150)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Console.WriteLine("Mouse clicked near bouncepad");
+                if (!followingMouse)
+                {
+                    Console.WriteLine("started following the mouse");
+                    followingMouse = true;
+                }
+                else
+                {
+                    Console.WriteLine("stopped following the mouse");
+                    followingMouse = false;
+                }
+            }
+        }
+
+        if (followingMouse)
+        {
+            float angle = center.GetAngleDegreesTwoPoints(mousePos);
+            RotateToAngle(angle);
+        }
 
     }
 

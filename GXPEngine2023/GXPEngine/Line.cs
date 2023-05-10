@@ -17,6 +17,8 @@ public class Line : EasyDraw
     public readonly bool isRotating = false;
     public readonly int rotationEachFrame = 1;
 
+
+
     public uint lineWidth = 1;
 
     ColliderManager engine;
