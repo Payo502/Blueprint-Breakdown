@@ -12,6 +12,8 @@ public class Claw : GameObject
     public bool holdingBall;
     private float speed = 5f;
     private Sprite clawSprite;
+    
+
 
     public Claw(MapObject ball) : base()
     {
@@ -32,6 +34,7 @@ public class Claw : GameObject
         if (Input.GetKey(Key.SPACE))
         {
             holdingBall = false;
+            heldball.isMoving = true;
         }
 
         if (Input.GetKey(Key.LEFT))
@@ -42,6 +45,16 @@ public class Claw : GameObject
         if (Input.GetKey(Key.RIGHT))
         {
             x += speed;
+        }
+
+        if (Input.GetKey(Key.UP))
+        {
+            y -= speed;
+        }
+
+        if (Input.GetKey(Key.DOWN))
+        {
+            y += speed;
         }
     }
 

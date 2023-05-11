@@ -25,7 +25,7 @@ public class BouncingPad : EasyDraw
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
 
-    public BouncingPad(Vec2 pStart, Vec2 pEnd, float pBounceForce = 10f) : base(1500, 1500)
+    public BouncingPad(Vec2 pStart, Vec2 pEnd, float pBounceForce = 20f) : base(1500, 1500)
     {
         start = pStart;
         end = pEnd;

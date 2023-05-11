@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class MyGame : Game
 {
 
-    int startLevelNumber = 1;
+    int startLevelNumber = 3;
 
     List<MapObject> movers;
 
@@ -34,7 +34,7 @@ public class MyGame : Game
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
                 AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
-                MapObject mapObject1 = new MapObject(30, new Vec2(200, 200));
+                MapObject mapObject1 = new MapObject(30, new Vec2(200, 200), default, false);
                 AddChild(mapObject1);
                 movers.Add(mapObject1);
                 
@@ -44,10 +44,10 @@ public class MyGame : Game
 
                 AddChild(new BouncingPad(new Vec2(300,500), new Vec2(600,500)));
                 AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
-                //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
-
 
                 break;
+
+
             case 2:
                 AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500))); // Bottom Slanted
                 AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
@@ -56,6 +56,24 @@ public class MyGame : Game
                 AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
                 AddChild(new MapObject(30, new Vec2(600, 200)));
+
+                break;
+
+            case 3: //fan testing
+                AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500))); // Bottom Slanted
+                AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
+                AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
+                AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
+                AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
+
+                Console.WriteLine("third level");
+
+                AddChild(new Fan(new Vec2(300, 400), new Vec2(400, 500), new Vec2(1,1)));
+
+                MapObject mapObject = new MapObject(30, new Vec2(350, 300));
+                AddChild(mapObject);
+                movers.Add(mapObject);
+
                 break;
 
         }
@@ -75,12 +93,16 @@ public class MyGame : Game
                 mapObject.engine.RemoveSolidCollider(mapObject.myCollider);
                 movers.Remove(mapObject);
             }
-            else if(child is BouncingPad bouncingPad)
+            else if (child is BouncingPad bouncingPad)
             {
                 bouncingPad.RemoveColliders();
             }
-
+            else if (child is Fan fan)
+            {
+                fan.RemoveColliders();
+            }
             child.Destroy();
+            
         }
         children.Clear();
     }
@@ -106,9 +128,15 @@ public class MyGame : Game
         {
             LoadLevel(startLevelNumber);
         }
-        if (Input.GetKeyDown(Key.ONE))
+        if (Input.GetKeyDown(Key.ENTER))
         {
             startLevelNumber++;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.BACKSPACE))
+        {
+            startLevelNumber--;
+            LoadLevel(startLevelNumber);
         }
     }
 
