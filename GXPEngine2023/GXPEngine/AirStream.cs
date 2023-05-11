@@ -15,14 +15,16 @@ public class AirStream : Sprite
 
     public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("square.png", false, true)
     {
+        alpha = 0.5f;
+
+        SetOrigin(width / 2, height / 2);
+        width = (int)pScale.x;
+        height = (int)pScale.y;
         position = pPosition;
         UpdateScreenPosition();
 
         strength = pStrength;
-        SetOrigin(width / 2, height / 2);
 
-        width = (int)pScale.x;
-        height = (int)pScale.y;
 
         myGame = (MyGame)MyGame.main;
 
@@ -34,22 +36,31 @@ public class AirStream : Sprite
         x = position.x;
         y = position.y;
         SetXY(x, y);
+        rotation = position.Normal().GetAngleRadians();
+    }
+
+    public void SetRotation(float angle)
+    {
+        position.SetAngleRadians(angle);
     }
 
     void Update()
     {
         for (int i = 0; i < myGame.GetNumberOfMovers(); i++)
         {
-            if(myGame.GetMover(i).isMoving && HitTest(myGame.GetMover(i)))
+            if(HitTest(myGame.GetMover(i)))
             {
+                CalculateAirStrength(position.Normal().GetAngleRadians());
                 myGame.GetMover(i).velocity += airStrength;
+                Console.WriteLine("this work?");
             }
         }
     }
 
-/*    public void CalculateAirStrength(float ownerRotation)
+    public void CalculateAirStrength(float ownerRotation)
     {
-        airStrength = new Vec2(0, -strength).RotateDegrees(ownerRotation);
-    }*/
+        airStrength = new Vec2(0, -strength/3);
+        airStrength.RotateDegrees(ownerRotation);
+    }
 }
 

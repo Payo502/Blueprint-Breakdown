@@ -17,10 +17,15 @@ public class Fan : EasyDraw
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
 
-    public Fan(Vec2 pStart, Vec2 pEnd) : base(2000, 2000)
+    AirStream airStream;
+
+    public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500) : base(5000, 5000, false)
     {
+        Clear(255);
         start = pStart;
         end = pEnd;
+        scaleX = pScale.x;
+        scaleY = pScale.x;
         Draw();
         colliders.Add(new Physics.LineSegment(this, start, end));
         colliders.Add(new Physics.LineSegment(this, end, start));
@@ -29,6 +34,9 @@ public class Fan : EasyDraw
         engine = ColliderManager.main;
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
+
+        AirStream airStream = new AirStream(new Vec2(start.x + (end.x - start.x)/2, start.y - airLength/2), new Vec2(100,airLength), 2);
+        AddChild(airStream);
     }
 
     void Draw()
@@ -39,7 +47,7 @@ public class Fan : EasyDraw
         Line(start.x, start.y, end.x, end.y);
     }
 
-    void RemoveColliders()
+    public void RemoveColliders()
     {
         foreach (Physics.Collider col in colliders)
             engine.RemoveSolidCollider(col);

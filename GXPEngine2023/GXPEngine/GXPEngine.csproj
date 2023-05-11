@@ -43,6 +43,7 @@
     <Compile Include="AirStream.cs" />
     <Compile Include="BouncingPad.cs" />
     <Compile Include="Claw.cs" />
+    <Compile Include="EndBlock.cs" />
     <Compile Include="Fan.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />

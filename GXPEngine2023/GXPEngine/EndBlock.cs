@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GXPEngine
+
+public class EndBlock
 {
-    internal class EndBlock
-    {
-    }
 }
+

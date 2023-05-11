@@ -99,6 +99,16 @@ public class Claw : GameObject
             velocity.x = v1_final;
             ball1.velocity.x = v2_final;
         }
+
+        if (Input.GetKey(Key.UP))
+        {
+            y -= speed;
+        }
+
+        if (Input.GetKey(Key.DOWN))
+        {
+            y += speed;
+        }
     }
 
     void Update()
