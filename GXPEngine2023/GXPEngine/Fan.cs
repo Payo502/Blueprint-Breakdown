@@ -33,7 +33,21 @@ public class Fan : EasyDraw
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
 
+        float angle = GetAngle();
+        Vec2 center = (start + end) / 2;
+        float length = (end - start).Length();
+        airStream = new AirStream(center, new Vec2(length,500), 2);
+        airStream.SetRotation(angle);
+        AddChild(airStream);
+
         RemoveColliders();
+    }
+
+    public float GetAngle()
+    {
+        Vec2 diff = end - start;
+        float angle = Vec2.Rad2Deg(diff.GetAngleRadians());
+        return angle;
     }
 
     void Draw()
