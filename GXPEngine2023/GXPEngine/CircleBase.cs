@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
-
 using Physics;
 
 public class CircleBase : EasyDraw
@@ -21,6 +20,11 @@ public class CircleBase : EasyDraw
     protected float bounciness = 0.99f;
 
     protected Vec2 gravity = new Vec2(0, 0.5f);
+
+    public bool gravityEnabled = true;
+
+    public bool enablePhysics { get; set; } = true;
+
     public float _bounciness
     {
         get { return bounciness; }
@@ -56,6 +60,10 @@ public class CircleBase : EasyDraw
         engine.AddSolidCollider(myCollider);
 
     }
+    protected virtual void RemoveColliders()
+    {
+        engine.RemoveSolidCollider(myCollider);
+    }
 
     protected virtual void Draw(byte red, byte green, byte blue)
     {
@@ -67,12 +75,20 @@ public class CircleBase : EasyDraw
 
     protected virtual void Update()
     {
-        if (isMoving)
+        if (enablePhysics)
         {
-            velocity += gravity;
+            if (isMoving)
+            {
+                if (gravityEnabled)
+                {
+                    velocity += gravity;
+                }
+
+            }
+            velocity *= friction;
+            Move();
         }
-        velocity *= friction;
-        Move();
+
     }
 
     protected virtual void Move()//always call base.Move() before UpdateScreenPosition() in every class that inherits from this (if that object needs to interact
@@ -111,17 +127,31 @@ public class CircleBase : EasyDraw
             }
         }
         //gravity 
-        
+
 
     }
 
-    protected void UpdateScreenPosition()
+    public void EnableMovement()
+    {
+        enablePhysics = true;
+        AddCollider();
+    }
+
+    public void DisableMovement()
+    {
+        enablePhysics = false;
+        RemoveColliders();
+    }
+
+    public void UpdateScreenPosition()
     {
         oldPosition.SetXY(x, y);
         x = myCollider.position.x;
         y = myCollider.position.y;
         position.SetXY(x, y);
-        
+
+        myCollider.position.SetXY(x, y);
+
     }
 
     protected virtual void NewtonLawsBalls(CircleBase pOther, CollisionInfo pCol)

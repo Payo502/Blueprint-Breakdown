@@ -14,6 +14,7 @@ public class BouncingPad : EasyDraw
     public Vec2 start;
     public Vec2 end;
 
+    private float originalBounceForce;
     public float bounceForce;
 
     private bool followingMouse = false;
@@ -25,7 +26,12 @@ public class BouncingPad : EasyDraw
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
 
-    public BouncingPad(Vec2 pStart, Vec2 pEnd, float pBounceForce = 10f) : base(1500, 1500)
+    private MapObject ball;
+    private Rope rope;
+
+
+
+    public BouncingPad(Vec2 pStart, Vec2 pEnd/*, MapObject pBall*/, float pBounceForce = 10f) : base(1500, 1500)
     {
         start = pStart;
         end = pEnd;
@@ -39,7 +45,10 @@ public class BouncingPad : EasyDraw
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
 
+        //originalBounceForce = pBounceForce;
         bounceForce = pBounceForce;
+
+        //ball = pBall;
     }
 
     public float GetBounceForce()
@@ -93,7 +102,7 @@ public class BouncingPad : EasyDraw
 
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         float distanceToMouse = (center - mousePos).Length();
-        if (distanceToMouse < 150)
+        if (distanceToMouse < 200)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -115,6 +124,21 @@ public class BouncingPad : EasyDraw
         {
             float angle = center.GetAngleDegreesTwoPoints(mousePos);
             RotateToAngle(angle);
+
+            /*float distanceToBall = (center - ball.position).Length();
+            if (distanceToBall < 150)
+            {
+                if (rope == null)
+                {
+                    rope = new Rope(distanceToBall, ball);
+                    bounceForce = originalBounceForce;
+                }
+                else
+                {
+                    rope = null;
+                    bounceForce = 0;
+                }
+            }*/
         }
 
     }

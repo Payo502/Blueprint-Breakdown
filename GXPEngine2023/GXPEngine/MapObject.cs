@@ -9,16 +9,20 @@ using Physics;
 
 public class MapObject : CircleBase
 {
+    
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
-        isMoving = moving;
+        velocity = pVelocity;
+        isMoving = true;
         Draw(230, 200, 0);
         _density = 0.9f;
 
     }
 
+
     protected override void Move()
     {
+        if(!enablePhysics) return;
 
         bool repeat = true;
         int iteration = 0;
@@ -41,7 +45,6 @@ public class MapObject : CircleBase
         UpdateScreenPosition();
     }
 
-
     protected override void Draw(byte red, byte green, byte blue)
     {
         Clear(Color.Empty);
@@ -59,6 +62,13 @@ public class MapObject : CircleBase
 
         Stroke(red, green, blue);
         Ellipse(radius, radius, 2 * radius, 2 * radius);
+    }
+
+    public void ApplyForce(Vec2 force)
+    {
+        Vec2 acceleration = force / Mass;
+
+        velocity += acceleration;
     }
 
     void ResolveCollisions(CollisionInfo pCol)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class MyGame : Game
 {
+    private Vec2 clawPosition;
 
     int startLevelNumber = 1;
 
@@ -15,6 +16,8 @@ public class MyGame : Game
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
     }
+
+
 
     void LoadLevel(int levelNumber)
     {
@@ -32,18 +35,14 @@ public class MyGame : Game
                 //AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
                 AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
-                AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
+                //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
-                MapObject mapObject1 = new MapObject(30, new Vec2(200, 200));
-                AddChild(mapObject1);
-                movers.Add(mapObject1);
-                
-                Claw claw = new Claw(mapObject1);
-                claw.SetXY(100, 100);
+                Claw claw = new Claw(new Vec2(200, 100));
                 AddChild(claw);
 
-                AddChild(new BouncingPad(new Vec2(300,500), new Vec2(600,500)));
-                AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
+
+                AddChild(new BouncingPad(new Vec2(300, 500), new Vec2(700, 500)));
+                //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
                 //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
 
 
@@ -55,11 +54,14 @@ public class MyGame : Game
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
                 AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
-                AddChild(new MapObject(30, new Vec2(600, 200)));
+                Claw claw2 = new Claw(new Vec2(500, 200));
+                AddChild(claw2);
+
                 break;
 
         }
     }
+
 
     void DestroyAll()
     {
@@ -75,7 +77,7 @@ public class MyGame : Game
                 mapObject.engine.RemoveSolidCollider(mapObject.myCollider);
                 movers.Remove(mapObject);
             }
-            else if(child is BouncingPad bouncingPad)
+            else if (child is BouncingPad bouncingPad)
             {
                 bouncingPad.RemoveColliders();
             }
@@ -108,14 +110,30 @@ public class MyGame : Game
         }
         if (Input.GetKeyDown(Key.ONE))
         {
-            startLevelNumber++;
+            startLevelNumber = 1;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.TWO))
+        {
+            startLevelNumber = 2;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.THREE))
+        {
+            startLevelNumber = 3;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.FOUR))
+        {
+            startLevelNumber = 4;
+            LoadLevel(startLevelNumber);
         }
     }
 
     void Update()
     {
         HandleInput();
-        // Empty
+        
     }
 
     static void Main()
