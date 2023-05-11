@@ -32,7 +32,6 @@ public class AirStream : Sprite
         x = position.x;
         y = position.y;
         SetXY(x, y);
-        rotation = position.Normal().GetAngleRadians();
     }
 
     public void SetRotation(float angle)

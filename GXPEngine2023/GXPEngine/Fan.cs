@@ -14,6 +14,8 @@ public class Fan : EasyDraw
 
     public int lineWidth = 1;
 
+    AirStream airStream;
+
     readonly ColliderManager engine;
     readonly List<Physics.Collider> colliders = new List<Physics.Collider> { };
 
