@@ -9,7 +9,7 @@ using Physics;
 
 public class MapObject : CircleBase
 {
-    
+    AnimationSprite ballSprite;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
@@ -17,12 +17,28 @@ public class MapObject : CircleBase
         Draw(230, 200, 0);
         _density = 0.9f;
 
+        AddSprite();
+
+    }
+
+    private void AddSprite()
+    {
+        ballSprite = new AnimationSprite("ball.png", 4, 2);
+        ballSprite.SetOrigin(ballSprite.width / 2, ballSprite.height / 2);
+        ballSprite.scale = 0.4f;
+        AddChild(ballSprite);
+    }
+
+    void AnimateBall()
+    {
+        ballSprite.SetCycle(0, 8);
+        ballSprite.Animate(0.25f);
     }
 
 
     protected override void Move()
     {
-        if(!enablePhysics) return;
+        if (!enablePhysics) return;
 
         bool repeat = true;
         int iteration = 0;
@@ -48,7 +64,7 @@ public class MapObject : CircleBase
     protected override void Draw(byte red, byte green, byte blue)
     {
         Clear(Color.Empty);
-        if (isMoving)
+        /*if (isMoving)
         {
             Fill(red, green, blue);
         }
@@ -61,7 +77,7 @@ public class MapObject : CircleBase
         }
 
         Stroke(red, green, blue);
-        Ellipse(radius, radius, 2 * radius, 2 * radius);
+        Ellipse(radius, radius, 2 * radius, 2 * radius);*/
     }
 
     public void ApplyForce(Vec2 force)
@@ -124,6 +140,12 @@ public class MapObject : CircleBase
             }
 
         }
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        AnimateBall();
     }
 }
 

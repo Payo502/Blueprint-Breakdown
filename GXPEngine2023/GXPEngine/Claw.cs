@@ -10,9 +10,11 @@ using Physics;
 
 public class Claw : GameObject
 {
+    MyGame myGame;
+
     Vec2 position;
     Vec2 velocity;
-    Sprite clawSprite;
+    AnimationSprite clawSprite;
     float speed = 5f;
 
     public float Mass;
@@ -25,18 +27,23 @@ public class Claw : GameObject
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
-        clawSprite = new Sprite("square.png");
+        clawSprite = new AnimationSprite("claw.png",1,2);
         clawSprite.SetOrigin(clawSprite.width / 2, clawSprite.height / 2 + 30);
+        clawSprite.SetCycle(1,1);
+        clawSprite.scale = 0.4f;
         AddChild(clawSprite);
 
         Mass = 10f;
 
         minX = position.x - 100;
         maxX = position.x + 100;
-        minY = position.y - 100;
-        maxY = position.y + 100;
+        minY = position.y - 50;
+        maxY = position.y + 50;
 
         UpdateScreen();
+
+        
+        
     }
 
     void UpdateScreen()
@@ -85,8 +92,15 @@ public class Claw : GameObject
 
         if (Input.GetKeyDown(Key.SPACE) && !hasBall)
         {
-            MapObject ball1 = new MapObject(30, new Vec2(x, y), clawVelocity);
+
+            if (myGame == null)
+            {
+                myGame = game.FindObjectOfType<MyGame>();
+            }
+            MapObject ball1 = new MapObject(30, new Vec2(x, y + 120), clawVelocity);
             parent.AddChild(ball1);
+            myGame.movers.Add(ball1);
+            
             hasBall = true;
 
             
@@ -98,17 +112,16 @@ public class Claw : GameObject
 
             velocity.x = v1_final;
             ball1.velocity.x = v2_final;
-        }
 
-        if (Input.GetKey(Key.UP))
-        {
-            y -= speed;
+            AnimateClawOpen();
         }
+    }
 
-        if (Input.GetKey(Key.DOWN))
-        {
-            y += speed;
-        }
+
+    void AnimateClawOpen()
+    {
+        clawSprite.SetCycle(0, 1);
+        clawSprite.Animate(0.5f);
     }
 
     void Update()

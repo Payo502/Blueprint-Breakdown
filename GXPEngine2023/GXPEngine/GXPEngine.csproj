@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AirStream.cs" />
     <Compile Include="BouncingPad.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Claw.cs" />
     <Compile Include="EndBlock.cs" />
     <Compile Include="Fan.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Physics Engine\Colliders\LineSegment.cs" />
     <Compile Include="Physics Engine\CollisionInfo.cs" />
     <Compile Include="Physics Engine\Vec2.cs" />
-    <Compile Include="PlaceableObject.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Rope.cs" />
   </ItemGroup>
