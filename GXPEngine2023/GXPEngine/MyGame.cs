@@ -9,9 +9,9 @@ public class MyGame : Game
 
     int startLevelNumber = 1;
 
-    List<MapObject> movers;
+    public List<MapObject> movers;
 
-    public MyGame() : base(1920, 1080, false, true)
+    public MyGame() : base(800, 600, false, false)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
@@ -31,20 +31,21 @@ public class MyGame : Game
 
                 //AddChild(new Player(new Vec2(200, 200), 30));
 
-                //AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
+                AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
                 //AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
-                AddChild(new Line(new Vec2(50, 0), new Vec2(50, 1080))); // Left
-                AddChild(new Line(new Vec2(1870, 0), new Vec2(1870, 1080))); // Right
+                AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
+                AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
                 //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
                 Claw claw = new Claw(new Vec2(200, 100));
                 AddChild(claw);
 
+                EndBlock endBlock1 = new EndBlock(300, 400);
+                //AddChild(endBlock1);
 
-                AddChild(new BouncingPad(new Vec2(50, 500), new Vec2(150, 580)));
+                AddChild(new BouncingPad(new Vec2(300, 500), new Vec2(700, 500)));
                 //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
                 //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
-                AddChild(new BouncingPad(new Vec2(650, 600), new Vec2(800, 630)));
 
 
                 break;
@@ -72,9 +73,8 @@ public class MyGame : Game
 
                 AddChild(new Fan(new Vec2(300, 400), new Vec2(400, 500), new Vec2(1,1)));
 
-                MapObject mapObject = new MapObject(30, new Vec2(350, 300));
-                AddChild(mapObject);
-                movers.Add(mapObject);
+                Claw claw3 = new Claw(new Vec2(100, 100));
+                AddChild(claw3);
 
                 break;
 
@@ -156,7 +156,6 @@ public class MyGame : Game
     void Update()
     {
         HandleInput();
-        
     }
 
     static void Main()
