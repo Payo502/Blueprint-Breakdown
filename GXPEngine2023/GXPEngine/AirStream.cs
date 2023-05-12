@@ -12,12 +12,11 @@ public class AirStream : Sprite
     MyGame myGame;
     Vec2 position;
 
-
     public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("square.png", false, true)
     {
         alpha = 0.5f;
 
-        SetOrigin(width / 2, height / 2);
+        SetOrigin(width / 2,height);
         width = (int)pScale.x;
         height = (int)pScale.y;
         position = pPosition;
@@ -25,10 +24,7 @@ public class AirStream : Sprite
 
         strength = pStrength;
 
-
         myGame = (MyGame)MyGame.main;
-
-        
     }
 
     void UpdateScreenPosition()
@@ -36,12 +32,12 @@ public class AirStream : Sprite
         x = position.x;
         y = position.y;
         SetXY(x, y);
-        rotation = position.Normal().GetAngleRadians();
     }
 
     public void SetRotation(float angle)
     {
-        position.SetAngleRadians(angle);
+        //position.SetAngleRadians(angle);
+        rotation = angle;
     }
 
     void Update()
@@ -52,7 +48,6 @@ public class AirStream : Sprite
             {
                 CalculateAirStrength(position.Normal().GetAngleRadians());
                 myGame.GetMover(i).velocity += airStrength;
-                Console.WriteLine("this work?");
             }
         }
     }
