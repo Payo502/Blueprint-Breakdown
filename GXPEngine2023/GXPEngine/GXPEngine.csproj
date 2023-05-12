@@ -51,6 +51,7 @@
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="CircleBase.cs" />
+    <Compile Include="Level.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MapObject.cs" />
     <Compile Include="MyGame.cs" />

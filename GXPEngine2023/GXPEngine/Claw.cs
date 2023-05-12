@@ -70,8 +70,6 @@ public class Claw : GameObject
         else if (Input.GetKey(Key.UP))
         {
             newY -= speed;
-            Console.WriteLine("going up");
-            Console.WriteLine(newY);
         }
         else if (Input.GetKey(Key.DOWN))
         {
