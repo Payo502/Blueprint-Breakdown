@@ -11,8 +11,10 @@ public class Background : Sprite
     public Background() : base("background.png",false,false)
     {
 
-        SetOrigin(width / 2, height / 2);
+        SetOrigin(0, 0);
 
+        width = game.width;
+        height = game.height;
 
     }
 

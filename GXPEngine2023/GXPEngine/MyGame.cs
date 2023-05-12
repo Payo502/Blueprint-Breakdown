@@ -11,7 +11,7 @@ public class MyGame : Game
 
     public List<MapObject> movers;
 
-    public MyGame() : base(800, 600, false, false)
+    public MyGame() : base(1920, 1080, false, false)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
@@ -27,7 +27,8 @@ public class MyGame : Game
         {
             case 1:
 
-
+                Background background1 = new Background();
+                AddChild(background1);
                 //AddChild(new Player(new Vec2(200, 200), 30));
 
                 AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
@@ -39,12 +40,13 @@ public class MyGame : Game
                 Claw claw = new Claw(new Vec2(200, 50));
                 AddChild(claw);
 
-                EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
-                AddChild(endBlock1);
+                //EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
+                //AddChild(endBlock1);
 
-                AddChild(new BouncingPad(new Vec2(300, 500), new Vec2(700, 500)));
+                AddChild(new BouncingPad(new Vec2(400, 500), new Vec2(600, 500)));
                 //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
                 //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
+
 
 
                 break;
@@ -63,8 +65,8 @@ public class MyGame : Game
 
             case 3: //fan testing
 
-                Background background1 = new Background();
-                AddChild(background1);
+                Background background3 = new Background();
+                AddChild(background3);
 
 
                 AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500))); // Bottom Slanted

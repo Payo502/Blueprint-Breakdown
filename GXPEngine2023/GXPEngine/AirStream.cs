@@ -12,17 +12,16 @@ public class AirStream : AnimationSprite
     MyGame myGame;
     Vec2 position;
 
-    public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("wind.png", 2, 4, -1, false, true)
+    public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("wind.png", 2, 2, -1, false, true)
     {
-        alpha = 0.5f;
+        //alpha = 0.5f;
 
         SetOrigin(width / 2, height);
         width = (int)pScale.x;
         height = (int)pScale.y;
         position = pPosition;
         UpdateScreenPosition();
-        SetCycle(0, 8);
-
+        SetCycle(0, 9);
         strength = pStrength;
 
         myGame = (MyGame)MyGame.main;
@@ -41,7 +40,7 @@ public class AirStream : AnimationSprite
         rotation = angle;
     }
 
-    void Update()
+    void Push()
     {
         for (int i = 0; i < myGame.GetNumberOfMovers(); i++)
         {
@@ -49,10 +48,16 @@ public class AirStream : AnimationSprite
             {
                 CalculateAirStrength(position.Normal().GetAngleRadians());
                 myGame.GetMover(i).velocity += airStrength;
+                Console.WriteLine(position);
             }
         }
+    }
 
-        Animate(0.25f);
+    void Update()
+    {
+        Push();
+
+        Animate(0.1f);
     }
 
     public void CalculateAirStrength(float ownerRotation)
