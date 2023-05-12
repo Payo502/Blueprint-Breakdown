@@ -11,17 +11,28 @@ public class Button : Sprite
 {
     Vec2 position;
     bool isPressed = false;
+    string action;
 
-    private Vec2 center;
+    MyGame myGame;
+    //Level level;
 
 
-    public Button(string filename, Vec2 pPosition, int pWidth, int pHeight) : base(filename)
+    public Button(string filename, Vec2 pPosition, int pWidth, int pHeight, string pAction) : base(filename)
     {
-        SetOrigin(position.x / 2, position.y / 2); 
+        SetOrigin(width / 2, height / 2); 
         position = pPosition;
         width = pWidth;
         height = pHeight;
-        center = new Vec2();
+        UpdateScreenPosition();
+        action = pAction;
+        myGame = game.FindObjectOfType<MyGame>();
+    }
+
+    public void UpdateScreenPosition()
+    {
+        x = position.x;
+        y = position.y;
+        position.SetXY(x, y);
     }
 
 
@@ -32,8 +43,51 @@ public class Button : Sprite
 
     void Click()
     {
-        Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
-        float distanceToMouse = (center - mousePos).Length();
+        float mouseX = Input.mouseX;
+        float mouseY = Input.mouseY;
+        if (HitTestPoint(mouseX,mouseY))
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                DoAction();
+                Console.WriteLine("pressed");
+            }
+        }
+    }
+
+    void DoAction()
+    {
+        QuitAction();
+        PlayAction();
+        SelectLevel();
+        Console.WriteLine("did action");
+    }
+
+    void QuitAction()
+    {
+        if (action == "quit")
+        {
+            myGame.Destroy();
+        }
+    }
+    
+    void PlayAction()
+    {
+        if (action == "play")
+        {
+            myGame.LoadNextLevel();
+            Console.WriteLine("switched level");
+        }
+    }
+
+
+    void SelectLevel()
+    {
+        if (action == "select")
+        {
+            myGame.LoadNextLevel();
+            Console.WriteLine("did something");
+        }
     }
 
 }

@@ -82,6 +82,16 @@ public class MyGame : Game
 
                 break;
 
+            case 4:
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2), 100, 100, "play"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "select"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "play"));
+                Console.WriteLine("four");
+                break;
+            case 5:
+                AddChild(new Button("triangle.png", new Vec2(width / 2, height / 2), 200, 200, "quit"));
+                Console.WriteLine("five");
+                break;
         }
     }
 
@@ -112,7 +122,7 @@ public class MyGame : Game
             {
                 endBlock.engine.RemoveSolidCollider(endBlock.myCollider);
             }
-            child.Destroy();
+            child.LateDestroy();
 
         }
         children.Clear();
@@ -163,6 +173,11 @@ public class MyGame : Game
         if (Input.GetKeyDown(Key.FOUR))
         {
             startLevelNumber = 4;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.FIVE))
+        {
+            startLevelNumber = 5;
             LoadLevel(startLevelNumber);
         }
     }

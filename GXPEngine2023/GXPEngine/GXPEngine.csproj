@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AirStream.cs" />
+    <Compile Include="ArmJoint.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BouncingPad.cs" />
     <Compile Include="Button.cs" />
@@ -51,7 +52,6 @@
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="CircleBase.cs" />
-    <Compile Include="Level.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MapObject.cs" />
     <Compile Include="MyGame.cs" />

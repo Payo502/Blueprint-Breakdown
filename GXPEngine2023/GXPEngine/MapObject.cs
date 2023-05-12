@@ -10,12 +10,14 @@ using Physics;
 public class MapObject : CircleBase
 {
     AnimationSprite ballSprite;
+    //Level level;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
         isMoving = true;
         Draw(230, 200, 0);
         _density = 0.9f;
+        
 
         AddSprite();
 
