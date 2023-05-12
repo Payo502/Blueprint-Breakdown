@@ -27,7 +27,7 @@ public class MapObject : CircleBase
     {
         ballSprite = new AnimationSprite("ball.png", 4, 2);
         ballSprite.SetOrigin(ballSprite.width / 2, ballSprite.height / 2);
-        ballSprite.scale = 0.4f;
+        ballSprite.scale = 0.6f;
         AddChild(ballSprite);
     }
 
@@ -118,10 +118,13 @@ public class MapObject : CircleBase
             Console.WriteLine("BouncingPad collision detected");
             BouncingPad bouncePad = (BouncingPad)pCol.other.owner;
             float bounceForce = bouncePad.GetBounceForce();
-            Console.WriteLine("Before velocity update: " + velocity);
+            //Console.WriteLine("Before velocity update: " + velocity);
             velocity.Reflect(_bounciness, pCol.normal);
             velocity += pCol.normal * bounceForce;
-            Console.WriteLine("After velocity update: " + velocity);
+            //Console.WriteLine("After velocity update: " + velocity);
+            //bouncePad.AnimateBouncePad();
+            
+
             return;
         }
         if (pCol.other.owner is EndBlock)
@@ -146,6 +149,7 @@ public class MapObject : CircleBase
             }
 
         }
+
     }
 
     protected override void Update()

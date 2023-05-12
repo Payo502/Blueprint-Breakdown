@@ -21,16 +21,18 @@ public class Claw : GameObject
 
     public bool hasBall;
 
+    bool clawOpen = false;
+
     private float minX, maxX;
     private float minY, maxY;
 
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
-        clawSprite = new AnimationSprite("claw.png", 1, 2);
+        clawSprite = new AnimationSprite("clawAnimationSprite.png", 4, 2);
         clawSprite.SetOrigin(clawSprite.width / 2, clawSprite.height / 2 + 30);
-        clawSprite.SetCycle(1, 1);
-        clawSprite.scale = 0.4f;
+        clawSprite.SetCycle(1, 6);
+        //clawSprite.scale = 0.6f;
         AddChild(clawSprite);
 
         Mass = 10f;
@@ -41,8 +43,6 @@ public class Claw : GameObject
         maxY = position.y + 100;
 
         UpdateScreen();
-
-
 
     }
 
@@ -103,7 +103,7 @@ public class Claw : GameObject
             {
                 myGame = game.FindObjectOfType<MyGame>();
             }
-            MapObject ball1 = new MapObject(30, new Vec2(x+10, y + 120), clawVelocity);
+            MapObject ball1 = new MapObject(50, new Vec2(x+10, y + 120), clawVelocity);
             parent.AddChild(ball1);
             myGame.movers.Add(ball1);
 
@@ -126,6 +126,7 @@ public class Claw : GameObject
 
     void AnimateClawOpen()
     {
+        clawOpen = true;
         clawSprite.SetCycle(0, 1);
         clawSprite.Animate(0.5f);
     }
@@ -133,6 +134,10 @@ public class Claw : GameObject
     void Update()
     {
         HandleInput();
+        if (!clawOpen)
+        {
+            clawSprite.Animate(0.25f);
+        }
     }
 }
 

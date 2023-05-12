@@ -15,6 +15,9 @@ public class Background : Sprite
 
         width = game.width;
         height = game.height;
+
+        width = game.width;
+        height = game.height;
     }
 
     void Update()

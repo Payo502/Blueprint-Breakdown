@@ -43,7 +43,7 @@ public class Line : EasyDraw
     void Draw()
     {
         Clear(Color.Empty);
-        StrokeWeight(0);//was 0
+        StrokeWeight(3);//was 0
         Line(start.x, start.y, end.x, end.y);
     }
     public void RemoveColliders()
