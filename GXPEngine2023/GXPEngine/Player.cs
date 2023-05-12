@@ -12,7 +12,6 @@ public class Player : CircleBase
 {
     float acceleration = 0.3f;
     float maxSpeed = 7f;
-    int cooldown = 400;
     int lastCooldown = -10000;
 
     private float deltaTime;

@@ -14,7 +14,6 @@ public class Rope : GameObject
     private float ropeLength;
     private float lineSegmentSize = 0.25f;
     private Vec2 startPos;
-    Player player;
     List<Vec2> segmentList = new List<Vec2>();
     List<Vec2> oldsegmentList = new List<Vec2>();
     EasyDraw drawingSpace;

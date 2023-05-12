@@ -4,19 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
+using Physics;
 
-public class EndBlock : GameObject 
+public class EndBlock : CircleBase
 {
-    public EndBlock(float x, float y)
-    {
-        Sprite endBlock = new Sprite("triangle.png");
-        endBlock.SetOrigin(endBlock.width / 2, endBlock.height / 2);
-        AddChild(endBlock);
+    Sprite endBlock;
 
-        this.x = x;
-        this.y = y;
+    public EndBlock(int pRadius, Vec2 pPosition) : base(pRadius, pPosition)
+    {
+        Draw(230, 200, 0);
+
+
+        //AddSprite();
     }
 
-
+    void AddSprite()
+    {
+        endBlock = new Sprite("triangle.png");
+        endBlock.SetOrigin(endBlock.width / 2, endBlock.height / 2);
+        AddChild(endBlock);
+    }
 }
 

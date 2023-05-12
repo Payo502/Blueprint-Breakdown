@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MyGame : Game
 {
-    private Vec2 clawPosition;
+
 
     int startLevelNumber = 1;
 
@@ -17,8 +17,6 @@ public class MyGame : Game
         LoadLevel(startLevelNumber);
     }
 
-
-
     void LoadLevel(int levelNumber)
     {
         startLevelNumber = levelNumber;
@@ -29,6 +27,7 @@ public class MyGame : Game
         {
             case 1:
 
+
                 //AddChild(new Player(new Vec2(200, 200), 30));
 
                 AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
@@ -37,11 +36,11 @@ public class MyGame : Game
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
                 //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
-                Claw claw = new Claw(new Vec2(200, 100));
+                Claw claw = new Claw(new Vec2(200, 50));
                 AddChild(claw);
 
-                EndBlock endBlock1 = new EndBlock(300, 400);
-                //AddChild(endBlock1);
+                EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
+                AddChild(endBlock1);
 
                 AddChild(new BouncingPad(new Vec2(300, 500), new Vec2(700, 500)));
                 //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
@@ -63,17 +62,22 @@ public class MyGame : Game
                 break;
 
             case 3: //fan testing
+
+                Background background1 = new Background();
+                AddChild(background1);
+
+
                 AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500))); // Bottom Slanted
                 AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
                 AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
-                AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
+                //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
                 Console.WriteLine("third level");
 
-                AddChild(new Fan(new Vec2(300, 400), new Vec2(400, 500), new Vec2(1,1)));
+                AddChild(new Fan(new Vec2(300, 500), new Vec2(500, 500), new Vec2(1, 1)));
 
-                Claw claw3 = new Claw(new Vec2(100, 100));
+                Claw claw3 = new Claw(new Vec2(200, 100));
                 AddChild(claw3);
 
                 break;
@@ -91,23 +95,33 @@ public class MyGame : Game
             {
                 line.RemoveColliders();
             }
-            else if (child is MapObject mapObject)
+            if (child is MapObject mapObject)
             {
                 mapObject.engine.RemoveSolidCollider(mapObject.myCollider);
                 movers.Remove(mapObject);
             }
-            else if (child is BouncingPad bouncingPad)
+            if (child is BouncingPad bouncingPad)
             {
                 bouncingPad.RemoveColliders();
             }
-            else if (child is Fan fan)
+            if (child is Fan fan)
             {
                 fan.RemoveColliders();
             }
+            if (child is EndBlock endBlock)
+            {
+                endBlock.engine.RemoveSolidCollider(endBlock.myCollider);
+            }
             child.Destroy();
-            
+
         }
         children.Clear();
+    }
+
+    public void LoadNextLevel()
+    {
+        startLevelNumber++;
+        LoadLevel(startLevelNumber);
     }
 
     public int GetNumberOfMovers()

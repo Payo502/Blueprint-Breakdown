@@ -27,23 +27,23 @@ public class Claw : GameObject
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
-        clawSprite = new AnimationSprite("claw.png",1,2);
+        clawSprite = new AnimationSprite("claw.png", 1, 2);
         clawSprite.SetOrigin(clawSprite.width / 2, clawSprite.height / 2 + 30);
-        clawSprite.SetCycle(1,1);
+        clawSprite.SetCycle(1, 1);
         clawSprite.scale = 0.4f;
         AddChild(clawSprite);
 
         Mass = 10f;
 
-        minX = position.x - 100;
-        maxX = position.x + 100;
-        minY = position.y - 50;
-        maxY = position.y + 50;
+        minX = position.x - 200;
+        maxX = position.x + 200;
+        minY = position.y - 100;
+        maxY = position.y + 100;
 
         UpdateScreen();
 
-        
-        
+
+
     }
 
     void UpdateScreen()
@@ -59,23 +59,29 @@ public class Claw : GameObject
         float newX = x;
         float newY = y;
 
+        Vec2 direction = new Vec2(0, 0);
+
         if (Input.GetKey(Key.RIGHT))
         {
-            newX += speed;
+            direction.y -= 1;
         }
-        else if (Input.GetKey(Key.LEFT))
+        if (Input.GetKey(Key.LEFT))
         {
-            newX -= speed;
+            direction.y += 1;
         }
-        else if (Input.GetKey(Key.UP))
+        if (Input.GetKey(Key.UP))
         {
-            newY -= speed;
-            Console.WriteLine("going up");
-            Console.WriteLine(newY);
+            direction.x -= 1;
         }
-        else if (Input.GetKey(Key.DOWN))
+        if (Input.GetKey(Key.DOWN))
         {
-            newY += speed;
+            direction.x += 1;
+        }
+        if (direction.x != 0 || direction.y != 0)
+        {
+            direction = direction.Normal();
+            newX += direction.x * speed;
+            newY += direction.y * speed;
         }
 
         if (newX >= minX && newX <= maxX)
@@ -97,15 +103,15 @@ public class Claw : GameObject
             {
                 myGame = game.FindObjectOfType<MyGame>();
             }
-            MapObject ball1 = new MapObject(30, new Vec2(x, y + 120), clawVelocity);
+            MapObject ball1 = new MapObject(30, new Vec2(x+10, y + 120), clawVelocity);
             parent.AddChild(ball1);
             myGame.movers.Add(ball1);
-            
+
             hasBall = true;
 
-            
+
             Rope rope = new Rope(20, ball1);
-            parent.AddChild(rope);
+            //parent.AddChild(rope);
 
             float v1_final = ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * clawVelocity.x + ((2 * ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
             float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;

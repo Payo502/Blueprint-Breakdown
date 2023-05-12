@@ -21,7 +21,7 @@ public class MapObject : CircleBase
 
     }
 
-    private void AddSprite()
+    protected virtual void AddSprite()
     {
         ballSprite = new AnimationSprite("ball.png", 4, 2);
         ballSprite.SetOrigin(ballSprite.width / 2, ballSprite.height / 2);
@@ -87,7 +87,7 @@ public class MapObject : CircleBase
         velocity += acceleration;
     }
 
-    void ResolveCollisions(CollisionInfo pCol)
+    protected virtual void ResolveCollisions(CollisionInfo pCol)
     {
         //Console.WriteLine("ResolveCollisions Called");
         if (pCol.other.owner is Line)
@@ -121,6 +121,10 @@ public class MapObject : CircleBase
             velocity += pCol.normal * bounceForce;
             Console.WriteLine("After velocity update: " + velocity);
             return;
+        }
+        if (pCol.other.owner is EndBlock)
+        {
+            ((MyGame)game).LoadNextLevel();
         }
 
 
