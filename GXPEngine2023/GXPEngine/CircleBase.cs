@@ -17,7 +17,7 @@ public class CircleBase : EasyDraw
     protected Vec2 oldPosition;
     public Vec2 velocity;
     protected int radius;
-    protected float bounciness = 0.99f;
+    protected float bounciness = 1f;
 
     protected Vec2 gravity = new Vec2(0, 0.5f);
 
