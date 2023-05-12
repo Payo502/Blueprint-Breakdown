@@ -7,7 +7,7 @@ public class MyGame : Game
 {
     private Vec2 clawPosition;
 
-    int startLevelNumber = 3;
+    int startLevelNumber = 1;
 
     List<MapObject> movers;
 
@@ -130,7 +130,7 @@ public class MyGame : Game
         {
             LoadLevel(startLevelNumber);
         }
-        if (Input.GetKeyDown(Key.ENTER))
+        if (Input.GetKeyDown(Key.ONE))
         {
             startLevelNumber = 1;
             LoadLevel(startLevelNumber);
