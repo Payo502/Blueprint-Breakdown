@@ -30,3 +30,11 @@ C:\Users\MORGAN\Desktop\Saxion\4.Semestar\Project weeks\Project-4\GXPEngine2023\
 C:\Users\MORGAN\Desktop\Saxion\4.Semestar\Project weeks\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
 C:\Users\MORGAN\Desktop\Saxion\4.Semestar\Project weeks\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.exe
 C:\Users\MORGAN\Desktop\Saxion\4.Semestar\Project weeks\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.AssemblyReference.cache
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.SuggestedBindingRedirects.cache
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.csproj.CoreCompileInputs.cache
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.exe
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\obj\x86\Debug\GXPEngine.pdb
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\bin\Debug\GXPEngine.exe.config
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\bin\Debug\GXPEngine.exe
+E:\University\Saxion\M4\Project 4\Git\Project-4\GXPEngine2023\GXPEngine\bin\Debug\GXPEngine.pdb
