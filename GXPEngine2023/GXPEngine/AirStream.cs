@@ -11,9 +11,10 @@ public class AirStream : AnimationSprite
     MyGame myGame;
     Vec2 position;
 
+
     public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("wind.png", 2, 2, -1, false, true)
     {
-
+        alpha = 0.5f;
 
         SetOrigin(width / 2, height);
         width = (int)pScale.x;
@@ -37,8 +38,12 @@ public class AirStream : AnimationSprite
         SetXY(x, y);
     }
 
-    void Push()
+    public void Push()
     {
+        if (!visible)
+        {
+            return;
+        }
         Vec2 airStrength = new Vec2(0, -strength);
         airStrength.RotateDegrees(rotation);
 
@@ -53,7 +58,6 @@ public class AirStream : AnimationSprite
 
     void Update()
     {
-        Push();
         Animate(0.1f);
     }
 }

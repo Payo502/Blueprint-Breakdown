@@ -5,9 +5,7 @@ using System.Collections.Generic;
 
 public class MyGame : Game
 {
-
-
-    int startLevelNumber = 1;
+    public int startLevelNumber = 1;
 
     public List<MapObject> movers;
 
@@ -17,7 +15,14 @@ public class MyGame : Game
         LoadLevel(startLevelNumber);
     }
 
-    void LoadLevel(int levelNumber)
+    public void ResetCurrentLevel()
+    {
+        DestroyAll();
+
+        LoadLevel(startLevelNumber);
+    }
+
+    public void LoadLevel(int levelNumber)
     {
         startLevelNumber = levelNumber;
 
@@ -25,27 +30,32 @@ public class MyGame : Game
 
         switch (levelNumber)
         {
+            case 0:
+                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2, height/2), 714, 349, "play"));
+
+                AddChild(new Button("circle.png","triangle.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "quit"));
+                Console.WriteLine("four");
+                break;
             case 1:
 
-                Background background1 = new Background("background.png");
-                AddChild(background1);
+                AddChild(new Background("background.png"));
+
                 //AddChild(new Player(new Vec2(200, 200), 30));
 
-                AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
-                //AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
-                AddChild(new Line(new Vec2(227, 0), new Vec2(227, 800))); // Left
-                AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
-                //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
+                SetupWalls();
+                
 
-                Claw claw = new Claw(new Vec2(200, 50));
-                AddChild(claw);
+                AddChild(new Claw(new Vec2(300, 300)));
 
-                EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
-                AddChild(endBlock1);
+                /*EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
+                AddChild(endBlock1);*/
 
                 AddChild(new BouncingPad(new Vec2(400, 500), new Vec2(600, 500)));
                 //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
                 //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
+
+                AddChild(new SecondBackground("Background_transparent.png"));
+                
                 break;
 
 
@@ -81,22 +91,19 @@ public class MyGame : Game
 
                 break;
             case 4:
-                Button button1 = new Button("square.png", new Vec2(100, 100), 200, 200);
-                break;
-
-            case 4:
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2), 100, 100, "play"));
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "play"));
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "restart"));
-                Console.WriteLine("four");
-                break;
-            case 5:
-                AddChild(new Button("triangle.png", new Vec2(width / 2, height / 2), 200, 200, "quit"));
+                AddChild(new Button("triangle.png","circle.png", new Vec2(width / 2, height / 2), 200, 200, "restart"));
                 Console.WriteLine("five");
                 break;
         }
     }
 
+    void SetupWalls()
+    {
+        AddChild(new Line(new Vec2(210, 140), new Vec2(210, 935))); // Left
+        AddChild(new Line(new Vec2(1718, 140), new Vec2(1718, 935))); // Right
+        AddChild(new Line(new Vec2(210, 935), new Vec2(1700, 935))); //Bottom
+        AddChild(new Line(new Vec2(210, 140), new Vec2(1718, 140))); //Top 
+    }
 
     void DestroyAll()
     {

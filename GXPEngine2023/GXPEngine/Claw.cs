@@ -34,15 +34,15 @@ public class Claw : GameObject
         clawSprite = new AnimationSprite("clawAnimationSprite.png", 4, 2);
         clawSprite.SetOrigin(clawSprite.width / 2, clawSprite.height / 2 + 30);
         clawSprite.SetCycle(1, 6);
-        //clawSprite.scale = 0.6f;
+        clawSprite.scale = 0.8f;
         AddChild(clawSprite);
 
         Mass = 10f;
 
-        minX = position.x - 200;
+        minX = position.x;
         maxX = position.x + 200;
         minY = position.y - 100;
-        maxY = position.y + 100;
+        maxY = position.y + 50;
 
         UpdateScreen();
 
@@ -105,7 +105,7 @@ public class Claw : GameObject
             {
                 myGame = game.FindObjectOfType<MyGame>();
             }
-            MapObject ball1 = new MapObject(50, new Vec2(x+10, y + 120), clawVelocity);
+            MapObject ball1 = new MapObject(38, new Vec2(x+10, y + 120), clawVelocity);
             parent.AddChild(ball1);
             myGame.movers.Add(ball1);
 

@@ -18,10 +18,8 @@ public class BouncingPad : EasyDraw
     public float bounceForce;
 
     private float degreeChange = 15;
-    private bool followingMouse = false;
 
     private Vec2 center;
-    private Vec2 Initi;
 
     public int lineWidth = 1;
 
@@ -35,7 +33,7 @@ public class BouncingPad : EasyDraw
 
     EasyDraw canvas;
 
-
+    Vec2 bottomCenter;
 
     public BouncingPad(Vec2 pStart, Vec2 pEnd/*, MapObject pBall*/, float pBounceForce = 10f) : base(1500, 1500)
     {
@@ -67,11 +65,11 @@ public class BouncingPad : EasyDraw
     void AddSprite()
     {
         bouncePadSprite = new AnimationSprite("bouncepadAnimationSprite.png", 2, 4);
-        bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height - height/2);
+        bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height);
         bouncePadSprite.SetCycle(0, 1);
         bouncePadSprite.scale = (end - start).Length() / bouncePadSprite.width;
         bouncePadSprite.x = center.x;
-        bouncePadSprite.y = center.y;
+        bouncePadSprite.y = center.y + bouncePadSprite.height;
         AddChild(bouncePadSprite);
     }
 
@@ -126,12 +124,12 @@ public class BouncingPad : EasyDraw
         {
             if (col is Circle)
             {
-                col.position.RotateAroundDegrees(center, angleDifference);
+                col.position.RotateAroundDegrees(bottomCenter, angleDifference);
             }
             else
             {
-                ((LineSegment)col).start.RotateAroundDegrees(center, angleDifference);
-                ((LineSegment)col).end.RotateAroundDegrees(center, angleDifference);
+                ((LineSegment)col).start.RotateAroundDegrees(bottomCenter, angleDifference);
+                ((LineSegment)col).end.RotateAroundDegrees(bottomCenter, angleDifference);
             }
         }
         Draw();
@@ -143,7 +141,7 @@ public class BouncingPad : EasyDraw
         float distanceToMouse = (center - mousePos).Length();
         if (distanceToMouse < 200)
         {
-            float currentAngle = start.GetAngleDegreesTwoPoints(center);
+            float currentAngle = start.GetAngleDegreesTwoPoints(end);
             if (Input.GetMouseButtonDown(0))
             {
                 Console.WriteLine("Before change:" + currentAngle);

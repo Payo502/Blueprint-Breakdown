@@ -18,6 +18,7 @@ public class MapObject : CircleBase
     private float delayAfterEndBlock = 3000f;
 
     private Claw claw;
+    MyGame myGame;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
@@ -33,7 +34,7 @@ public class MapObject : CircleBase
     {
         ballSprite = new AnimationSprite("ball.png", 4, 2);
         ballSprite.SetOrigin(ballSprite.width / 2, ballSprite.height / 2);
-        ballSprite.scale = 0.6f;
+        ballSprite.scale = 0.5f;
         AddChild(ballSprite);
     }
 
@@ -117,6 +118,9 @@ public class MapObject : CircleBase
                 return;
             }
 
+
+            
+
         }
 
         if (pCol.other.owner is BouncingPad)
@@ -139,13 +143,7 @@ public class MapObject : CircleBase
             lastCollisionTime = Time.time - lastCollisionTime;
             levelComplete = true;
 
-            
-            if (claw == null)
-            {
-                claw = game.FindObjectOfType<Claw>();
-            }
-            claw.MoveUpward();
-            
+            MoveClaw();
         }
 
 
@@ -168,6 +166,15 @@ public class MapObject : CircleBase
 
     }
 
+    void MoveClaw()
+    {
+        if (claw == null)
+        {
+            claw = game.FindObjectOfType<Claw>();
+        }
+        claw.MoveUpward();
+    }
+
     void MoveToNextLevel()
     {
         //Console.WriteLine($"Time: {Time.time}, LastCollisionTime: {lastCollisionTime}, Delay: {delayAfterEndBlock}");
@@ -180,6 +187,7 @@ public class MapObject : CircleBase
             ((MyGame)game).LoadNextLevel();
         }
     }
+
 
     protected override void Update()
     {

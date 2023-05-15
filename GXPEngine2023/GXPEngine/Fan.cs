@@ -15,12 +15,13 @@ public class Fan : EasyDraw
 
     public int lineWidth = 1;
 
-    private float degreeChange = 15;
     AirStream airStream;
     private Vec2 center;
     readonly ColliderManager engine;
     readonly List<Physics.Collider> colliders = new List<Physics.Collider> { };
     AnimationSprite fanAnimationSprite;
+
+    private bool isOn;
 
     public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500) : base(1000, 1000, false)
     {
@@ -44,7 +45,6 @@ public class Fan : EasyDraw
         airStream = new AirStream(center, new Vec2(length, 500), 1f);
         airStream.SetRotation(angle);
         AddChild(airStream);
-
         RemoveColliders();
         AddSprite();
     }
@@ -111,27 +111,32 @@ public class Fan : EasyDraw
         Draw();
     }
 
-    void RotateFan()
+    void TurnFanOn()
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         float distanceToMouse = (center - mousePos).Length();
         if (distanceToMouse < 200)
         {
-            float currentAngle = start.GetAngleDegreesTwoPoints(center);
             if (Input.GetMouseButtonDown(0))
             {
-                RotateToAngle(currentAngle + degreeChange);
-            }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                RotateToAngle(currentAngle - degreeChange);
+                isOn = !isOn;
             }
         }
     }
     void Update()
     {
-        RotateFan();
-        //AnimateFan();
+        TurnFanOn();
+        if (isOn)
+        {
+            AnimateFan();
+            airStream.Push();
+            airStream.visible = true;
+        }
+        else
+        {
+            airStream.visible = false;
+        }
+        
     }
 }
 

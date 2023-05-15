@@ -7,25 +7,41 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class Button : Sprite
+public class Button : GameObject
 {
     Vec2 position;
-    bool isPressed = false;
     string action;
 
     MyGame myGame;
     //Level level;
+    Sprite hoverSprite;
+    Sprite buttonSprite;
 
 
-    public Button(string filename, Vec2 pPosition, int pWidth, int pHeight, string pAction) : base(filename)
+    public Button(string filename, string hoverFilename, Vec2 pPosition, int pWidth, int pHeight, string pAction) : base()
     {
-        SetOrigin(width / 2, height / 2); 
         position = pPosition;
-        width = pWidth;
-        height = pHeight;
-        UpdateScreenPosition();
+
+        buttonSprite = new Sprite(filename);
+        hoverSprite = new Sprite(hoverFilename);
+
+        buttonSprite.SetOrigin(buttonSprite.width / 2, buttonSprite.height / 2);
+        buttonSprite.width = pWidth;
+        buttonSprite.height = pHeight;
+
+        hoverSprite.SetOrigin(hoverSprite.width / 2, hoverSprite.height / 2);
+        hoverSprite.width = pWidth;
+        hoverSprite.height = pHeight;
+        hoverSprite.visible = false;
+
+        AddChild(buttonSprite);
+        AddChild(hoverSprite);
+
         action = pAction;
         myGame = game.FindObjectOfType<MyGame>();
+
+        UpdateScreenPosition();
+
     }
 
     public void UpdateScreenPosition()
@@ -39,19 +55,36 @@ public class Button : Sprite
     void Update()
     {
         Click();
+        Hover();
     }
 
     void Click()
     {
         float mouseX = Input.mouseX;
         float mouseY = Input.mouseY;
-        if (HitTestPoint(mouseX,mouseY))
+        if (buttonSprite.HitTestPoint(mouseX, mouseY) || hoverSprite.HitTestPoint(mouseX, mouseY))
         {
             if (Input.GetMouseButtonDown(0))
             {
                 DoAction();
                 Console.WriteLine("pressed");
             }
+        }
+    }
+
+    void Hover()
+    {
+        float mouseX = Input.mouseX;
+        float mouseY = Input.mouseY;
+        if (buttonSprite.HitTestPoint(mouseX, mouseY) || hoverSprite.HitTestPoint(mouseX, mouseY))
+        {
+            buttonSprite.visible = false;
+            hoverSprite.visible = true;
+        }
+        else
+        {
+            buttonSprite.visible = true;
+            hoverSprite.visible = false;
         }
     }
 
