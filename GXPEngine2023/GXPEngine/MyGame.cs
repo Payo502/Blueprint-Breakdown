@@ -80,6 +80,9 @@ public class MyGame : Game
                 AddChild(claw3);
 
                 break;
+            case 4:
+                Button button1 = new Button("square.png", new Vec2(100, 100), 200, 200);
+                break;
 
         }
     }
