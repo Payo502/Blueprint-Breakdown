@@ -6,7 +6,7 @@ using GXPEngine.Core;
 
 public class MyGame : Game
 {
-    public int startLevelNumber = 1;
+    public int startLevelNumber = 0;
 
     public List<MapObject> movers;
 
@@ -32,89 +32,60 @@ public class MyGame : Game
         switch (levelNumber)
         {
             case 0:
-                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2, height/2), 714, 349, "play"));
+                AddChild(new Background("mainScreenBackground.png"));
 
-                AddChild(new Button("circle.png","triangle.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "quit"));
-                Console.WriteLine("four");
+                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2 - 200, height/2 + 250), 280, 132, "play"));
+
+                AddChild(new Button("Quit_withouthover.png", "Quit_Hover.png", new Vec2(width/2 + 200,height/2 + 250), 280, 132, "quit"));
                 break;
             case 1:
 
                 AddChild(new Background("background.png"));
 
-                //AddChild(new Player(new Vec2(200, 200), 30));
-
                 SetupWalls();
                 
-
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                /*EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
-                AddChild(endBlock1);*/
-
                 AddChild(new BouncingPad(new Vec2(400, 500), new Vec2(600, 500)));
-                //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
-                //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
-
-                AddChild(new SecondBackground("Background_transparent.png"));
-                
-                AddChild(new Button("square.png", new Vec2(500, 0), 100, 1300, "play"));
-
-                //EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
-                //AddChild(endBlock1);
-
                 AddChild(new BouncingPad(new Vec2(50, 800), new Vec2(250, 800)));
                 
                 AddChild(new Fan(new Vec2(700, 800), new Vec2(900, 800), new Vec2(1,1)));
 
                 AddChild(new BouncingPad(new Vec2(500, -150), new Vec2(700, -150)));
 
-                AddChild(new Button("square.png", new Vec2(1300, 1200), 200, 1000, "play"));
-
                 AddChild(new BouncingPad(new Vec2(1200, 500), new Vec2(1400, 500)));
 
                 AddChild(new EndBlock(50, new Vec2(1650, 500)));
+
+                AddChild(new SecondBackground("Background_transparent.png"));
                 break;
 
 
             case 2:
-                AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500))); // Bottom Slanted
-                AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
-                AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
-                AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
-                AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
+                AddChild(new Background("background.png"));
 
-                AddChild(new MapObject(30, new Vec2(600, 200)));
+                SetupWalls();
+
+                AddChild(new Claw(new Vec2(300, 300)));
+                AddChild(new SecondBackground("Background_transparent.png"));
 
                 break;
 
-            case 3: //fan testing
+            case 3:
+                AddChild(new Background("background.png"));
 
-                Background background3 = new Background("background.png");
-                AddChild(background3);
+                SetupWalls();
 
+                AddChild(new Claw(new Vec2(300, 300)));
+                AddChild(new SecondBackground("Background_transparent.png"));
 
-                AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500))); // Bottom Slanted
-                AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
-                AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
-                AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
-                //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
-
-                Console.WriteLine("third level");
-
-                AddChild(new Fan(new Vec2(300, 500), new Vec2(500, 500), new Vec2(1, 1)));
-
-                Claw claw3 = new Claw(new Vec2(200, 100));
-                AddChild(claw3);
 
                 break;
             case 4:
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2), 100, 100, "play"));
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "play"));
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "restart"));
+
                 Console.WriteLine("four");
                 break;
             case 5:
-                AddChild(new Button("triangle.png", new Vec2(width / 2, height / 2), 200, 200, "quit"));
                 Console.WriteLine("five");
                 break;
         }
