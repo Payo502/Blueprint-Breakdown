@@ -17,7 +17,7 @@ public class BouncingPad : EasyDraw
 
     public float bounceForce;
 
-    private float degreeChange = 30;
+    private float degreeChange = 15;
     public float maxAngle;
 
     private Vec2 center;
@@ -61,7 +61,6 @@ public class BouncingPad : EasyDraw
         bottomCenter.x = center.x;
         bottomCenter.y = center.y + bouncePadSprite.height;
         Console.WriteLine(bottomCenter);
-
     }
 
     void AddSprite()
@@ -97,7 +96,6 @@ public class BouncingPad : EasyDraw
         Stroke(0, 255, 0);
         StrokeWeight(2);//was 0
         Line(start.x, start.y, end.x, end.y);
-        //Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
     }
 
     public void RemoveColliders()
@@ -106,7 +104,7 @@ public class BouncingPad : EasyDraw
             engine.RemoveSolidCollider(col);
     }
 
-    void RotateToAngle(float targetAngle)
+    public void RotateToAngle(float targetAngle)
     {
         center = (start + end) / 2f;
         float currentAngle = start.GetAngleDegreesTwoPoints(end);
@@ -138,7 +136,7 @@ public class BouncingPad : EasyDraw
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         float distanceToMouse = (center - mousePos).Length();
-        if (distanceToMouse < 300)
+        if (distanceToMouse < 200)
         {
             float currentAngle = start.GetAngleDegreesTwoPoints(end);
             if (Input.GetMouseButtonDown(1))

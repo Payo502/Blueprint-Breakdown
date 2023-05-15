@@ -102,6 +102,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Rope.cs" />
     <Compile Include="SecondBackground.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -13,7 +13,6 @@ public class Button : GameObject
     string action;
 
     MyGame myGame;
-    //Level level;
     Sprite hoverSprite;
     Sprite buttonSprite;
 
@@ -67,7 +66,6 @@ public class Button : GameObject
             if (Input.GetMouseButtonDown(0))
             {
                 DoAction();
-                Console.WriteLine("pressed");
             }
         }
     }
@@ -93,7 +91,6 @@ public class Button : GameObject
         QuitAction();
         PlayAction();
         RestartAction();
-        Console.WriteLine("did action");
     }
 
     void QuitAction()
@@ -109,7 +106,6 @@ public class Button : GameObject
         if (action == "play")
         {
             myGame.LoadNextLevel();
-            Console.WriteLine("switched level");
         }
     }
 
@@ -118,7 +114,6 @@ public class Button : GameObject
         if (action == "restart")
         {
             myGame.LoadFirstLevel();
-            Console.WriteLine("switched to first level");
         }
     }
 }
