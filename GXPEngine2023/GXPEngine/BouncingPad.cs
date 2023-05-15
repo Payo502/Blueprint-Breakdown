@@ -17,7 +17,7 @@ public class BouncingPad : EasyDraw
 
     public float bounceForce;
 
-    private float degreeChange = 30;
+    private float degreeChange = 15;
     public float maxAngle;
 
     private Vec2 center;
@@ -104,7 +104,7 @@ public class BouncingPad : EasyDraw
             engine.RemoveSolidCollider(col);
     }
 
-    void RotateToAngle(float targetAngle)
+    public void RotateToAngle(float targetAngle)
     {
         center = (start + end) / 2f;
         float currentAngle = start.GetAngleDegreesTwoPoints(end);

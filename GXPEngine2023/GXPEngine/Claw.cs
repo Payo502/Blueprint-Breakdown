@@ -110,7 +110,7 @@ public class Claw : GameObject
             hasBall = true;
 
             float v1_final = ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * clawVelocity.x + ((2 * ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
-            float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
+            float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x * 2;
 
             velocity.x = v1_final;
             ball1.velocity.x = v2_final;
