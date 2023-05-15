@@ -13,12 +13,16 @@ public class MapObject : CircleBase
     AnimationSprite ballSprite;
 
     private float lastCollisionTime = 0;
+    private float lineCollisionTime = 0;
     private bool levelComplete = false;
+    private bool levelReset = false;
 
     private float delayAfterEndBlock = 3000f;
+    private float delayAfterLine = 1000;
+
+    bool lineBounce = false;
 
     private Claw claw;
-    MyGame myGame;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
@@ -32,16 +36,25 @@ public class MapObject : CircleBase
 
     protected virtual void AddSprite()
     {
-        ballSprite = new AnimationSprite("ball.png", 4, 2);
+        ballSprite = new AnimationSprite("ball_animation.png", 4, 4);
+        ballSprite.SetCycle(0, 8);
         ballSprite.SetOrigin(ballSprite.width / 2, ballSprite.height / 2);
-        ballSprite.scale = 0.5f;
+        ballSprite.scale = 0.25f;
         AddChild(ballSprite);
+    }
+
+    void AnimateDeath()
+    {
+        ballSprite.SetCycle(9, 7);
+        ballSprite.Animate(0.1f);
+        
     }
 
     void AnimateBall()
     {
         ballSprite.SetCycle(0, 8);
         ballSprite.Animate(0.25f);
+        
     }
 
 
@@ -101,6 +114,8 @@ public class MapObject : CircleBase
         //Console.WriteLine("ResolveCollisions Called");
         if (pCol.other.owner is Line)
         {
+            lineCollisionTime = Time.time - lineCollisionTime;
+            levelReset = true;
 
             Line segment = (Line)pCol.other.owner;
             if (segment.isRotating)
@@ -114,13 +129,11 @@ public class MapObject : CircleBase
             }
             else
             {
-                velocity.Reflect(bounciness, pCol.normal);
+                //velocity.Reflect(bounciness, pCol.normal);
+                MoveClaw(3);
+                lineBounce = true;
                 return;
             }
-
-
-            
-
         }
 
         if (pCol.other.owner is BouncingPad)
@@ -137,37 +150,17 @@ public class MapObject : CircleBase
             //Console.WriteLine("EndBlock collision detected");
             lastCollisionTime = Time.time - lastCollisionTime;
             levelComplete = true;
-
-            MoveClaw();
+            MoveClaw(1);
         }
-
-
-        if (pCol.other.owner is Player)
-        {
-            NewtonLawsBalls((MapObject)pCol.other.owner, pCol);
-        }
-        if (pCol.other.owner is MapObject)
-        {
-            if (((MapObject)pCol.other.owner).isMoving)
-            {
-                NewtonLawsBalls((MapObject)pCol.other.owner, pCol);
-            }
-            else
-            {
-                velocity.Reflect(bounciness, pCol.normal);
-            }
-
-        }
-
     }
 
-    void MoveClaw()
+    void MoveClaw(int upSpeed)
     {
         if (claw == null)
         {
             claw = game.FindObjectOfType<Claw>();
         }
-        claw.MoveUpward();
+        claw.MoveUpward(upSpeed);
     }
 
     void MoveToNextLevel()
@@ -183,13 +176,34 @@ public class MapObject : CircleBase
         }
     }
 
+    void ResetLevel()
+    {
+        if (levelReset && Time.time > lineCollisionTime + delayAfterLine)
+        {
+            Console.WriteLine("Reseting Level....");
+            ((MyGame)game).ResetCurrentLevel();
+            lineCollisionTime = 0;
+            levelReset = false;
+        }
+    }
+
 
     protected override void Update()
     {
         base.Update();
-        AnimateBall();
-
         MoveToNextLevel();
+        ResetLevel();
+        if (lineBounce)
+        {
+            Console.WriteLine("calling animation death");
+            AnimateDeath();
+        }
+        else
+        {
+            AnimateBall();
+            //AnimateDeath();
+        }
+
     }
 }
 

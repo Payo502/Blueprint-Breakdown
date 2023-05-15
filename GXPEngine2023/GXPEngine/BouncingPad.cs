@@ -27,9 +27,9 @@ public class BouncingPad : EasyDraw
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
 
+
     AnimationSprite bouncePadSprite;
 
-    EasyDraw canvas;
 
     Vec2 bottomCenter;
 
@@ -154,7 +154,7 @@ public class BouncingPad : EasyDraw
     void Update()
     {
         RotateBouncePad();
-        if (hasBounced == true)
+        if (hasBounced)
         {
             AnimateBouncePad();
         }

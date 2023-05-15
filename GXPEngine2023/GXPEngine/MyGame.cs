@@ -6,7 +6,7 @@ using GXPEngine.Core;
 
 public class MyGame : Game
 {
-    public int startLevelNumber = 1;
+    public int startLevelNumber = 0;
 
     public List<MapObject> movers;
 
@@ -32,8 +32,11 @@ public class MyGame : Game
         switch (levelNumber)
         {
             case 0:
-                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2, height/2), 714, 349, "play"));
+                AddChild(new Background("mainScreenBackground.png"));
 
+                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2 - 200, height/2 + 250), 280, 132, "play"));
+
+                AddChild(new Button("Quit_withouthover.png", "Quit_Hover.png", new Vec2(width/2 + 200,height/2 + 250), 280, 132, "quit"));
                 AddChild(new Button("circle.png","triangle.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "quit"));
                 break;
 
@@ -87,9 +90,10 @@ public class MyGame : Game
 
             case 3:
 
-                Background background3 = new Background("background.png");
-                AddChild(background3);
+                SetupWalls();
 
+                AddChild(new Claw(new Vec2(300, 300)));
+                AddChild(new SecondBackground("Background_transparent.png"));
 
                 AddChild(new Line(new Vec2(800, 300), new Vec2(400, 500)));
                 AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500)));
