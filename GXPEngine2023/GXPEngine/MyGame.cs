@@ -2,6 +2,7 @@ using System;
 using GXPEngine;
 using System.Drawing;
 using System.Collections.Generic;
+using GXPEngine.Core;
 
 public class MyGame : Game
 {
@@ -9,7 +10,7 @@ public class MyGame : Game
 
     public List<MapObject> movers;
 
-    public MyGame() : base(1920, 1080, false, false)
+    public MyGame() : base(1920, 1080, false, false)//, 1440, 810)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
@@ -56,6 +57,22 @@ public class MyGame : Game
 
                 AddChild(new SecondBackground("Background_transparent.png"));
                 
+                AddChild(new Button("square.png", new Vec2(500, 0), 100, 1300, "play"));
+
+                //EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
+                //AddChild(endBlock1);
+
+                AddChild(new BouncingPad(new Vec2(50, 800), new Vec2(250, 800)));
+                
+                AddChild(new Fan(new Vec2(700, 800), new Vec2(900, 800), new Vec2(1,1)));
+
+                AddChild(new BouncingPad(new Vec2(500, -150), new Vec2(700, -150)));
+
+                AddChild(new Button("square.png", new Vec2(1300, 1200), 200, 1000, "play"));
+
+                AddChild(new BouncingPad(new Vec2(1200, 500), new Vec2(1400, 500)));
+
+                AddChild(new EndBlock(50, new Vec2(1650, 500)));
                 break;
 
 
@@ -91,7 +108,13 @@ public class MyGame : Game
 
                 break;
             case 4:
-                AddChild(new Button("triangle.png","circle.png", new Vec2(width / 2, height / 2), 200, 200, "restart"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2), 100, 100, "play"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "play"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "restart"));
+                Console.WriteLine("four");
+                break;
+            case 5:
+                AddChild(new Button("triangle.png", new Vec2(width / 2, height / 2), 200, 200, "quit"));
                 Console.WriteLine("five");
                 break;
         }
