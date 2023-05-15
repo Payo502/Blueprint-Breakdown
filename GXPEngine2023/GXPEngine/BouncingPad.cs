@@ -26,23 +26,40 @@ public class BouncingPad : EasyDraw
 
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
-
-
     AnimationSprite bouncePadSprite;
-
-
     Vec2 bottomCenter;
 
     public bool hasBounced = false;
-
-
-
-    public BouncingPad(Vec2 pStart, Vec2 pEnd/*, MapObject pBall*/, float pBounceForce = 10f) : base(2000, 2000)
+    public BouncingPad(Vec2 pStart, Vec2 pEnd, float initialAngle = 0f, float pBounceForce = 10f) : base(2000, 2000)
     {
         start = pStart;
         end = pEnd;
         center = (start + end) / 2f;
+
+        bounceForce = pBounceForce;
+
+        AddSprite();
+
+        bouncePadSprite.rotation = initialAngle;
+
+        EasyDraw canvas = new EasyDraw(50, 50, false);
+        AddChild(canvas);
+
+        bottomCenter.x = center.x;
+        bottomCenter.y = center.y + bouncePadSprite.height;
+
+        start.RotateAroundDegrees(bottomCenter, initialAngle);
+        Console.WriteLine("X {0} and Y {1}", start.x, start.y);
+        end.RotateAroundDegrees(bottomCenter, initialAngle);
+
+        AddColliders();
         Draw();
+        Console.WriteLine(bottomCenter);
+    }
+
+    void AddColliders()
+    {
+
         colliders.Add(new Physics.LineSegment(this, start, end));
         colliders.Add(new Physics.LineSegment(this, end, start));
         colliders.Add(new Physics.Circle(this, start, 0));
@@ -51,16 +68,7 @@ public class BouncingPad : EasyDraw
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
 
-        bounceForce = pBounceForce;
 
-        AddSprite();
-
-        EasyDraw canvas = new EasyDraw(50, 50, false);
-        AddChild(canvas);
-
-        bottomCenter.x = center.x;
-        bottomCenter.y = center.y + bouncePadSprite.height;
-        Console.WriteLine(bottomCenter);
     }
 
     void AddSprite()
@@ -75,11 +83,11 @@ public class BouncingPad : EasyDraw
     }
 
     public void AnimateBouncePad()
-    {       
+    {
         bouncePadSprite.SetCycle(0, 8);
         bouncePadSprite.Animate(0.2f);
-        if (bouncePadSprite.currentFrame >= bouncePadSprite.frameCount-1)
-        {         
+        if (bouncePadSprite.currentFrame >= bouncePadSprite.frameCount - 1)
+        {
             bouncePadSprite.currentFrame = 0;
             hasBounced = false;
         }
@@ -109,13 +117,16 @@ public class BouncingPad : EasyDraw
         center = (start + end) / 2f;
         float currentAngle = start.GetAngleDegreesTwoPoints(end);
         float angleDifference = targetAngle - currentAngle;
-        
+
         Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
         Draw();
 
         start.RotateAroundDegrees(bottomCenter, angleDifference);
         end.RotateAroundDegrees(bottomCenter, angleDifference);
         bouncePadSprite.rotation = targetAngle;
+
+        RemoveColliders();
+        AddColliders();
 
         foreach (Physics.Collider col in colliders)
         {
@@ -159,6 +170,4 @@ public class BouncingPad : EasyDraw
             AnimateBouncePad();
         }
     }
-
-
 }

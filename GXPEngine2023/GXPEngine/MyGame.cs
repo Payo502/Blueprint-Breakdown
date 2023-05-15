@@ -6,7 +6,7 @@ using GXPEngine.Core;
 
 public class MyGame : Game
 {
-    public int startLevelNumber = 0;
+    public int startLevelNumber = 1;
 
     public List<MapObject> movers;
 
@@ -47,13 +47,13 @@ public class MyGame : Game
                 
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                AddChild(new BouncingPad(new Vec2(220, 750), new Vec2(350, 750)));
+                AddChild(new BouncingPad(new Vec2(220, 750), new Vec2(350, 750),45,20));
 
                 AddChild(new Wall("wall.png", 600, 0, 100, 500));
                 
                 AddChild(new Fan(new Vec2(800, 800), new Vec2(1000, 800), new Vec2(1,1)));
 
-                AddChild(new BouncingPad(new Vec2(930, 50), new Vec2(1030, 50), 20));
+                AddChild(new BouncingPad(new Vec2(930, 50), new Vec2(1030, 50), 145,20));
 
                 AddChild(new BouncingPad(new Vec2(1300, 700), new Vec2(1450, 700)));
 
@@ -70,7 +70,6 @@ public class MyGame : Game
 
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                AddChild(new EndBlock(50,new Vec2(300, 500)));
                 AddChild(new SecondBackground("Background_transparent.png"));
 
                 AddChild(new Wall("wall.png", 400, 700, 100, 500));
