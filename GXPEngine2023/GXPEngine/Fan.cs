@@ -62,8 +62,8 @@ public class Fan : EasyDraw
 
     void AnimateFan()
     {
-        fanAnimationSprite.SetCycle(1, 8);
-        fanAnimationSprite.Animate(0.2f);
+        fanAnimationSprite.SetCycle(0, 8);
+        fanAnimationSprite.Animate(0.4f);
     }
 
     public float GetAngle()

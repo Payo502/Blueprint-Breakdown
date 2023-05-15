@@ -13,34 +13,17 @@ public class EndBlock : CircleBase
 
     public EndBlock(int pRadius, Vec2 pPosition) : base(pRadius, pPosition)
     {
-        Draw(230, 200, 0);
-
-
-        //AddSprite();
+        AddSprite();
+        alpha = 0;
     }
-    /*protected override void Draw(byte red, byte green, byte blue)
-    {
-        Clear(Color.Empty);
-        *//*if (isMoving)
-        {
-            Fill(red, green, blue);
-        }
-        else
-        {
-            red = 255;
-            green = 255;
-            blue = 255;
-            Fill(red, green, blue, 0);
-        }
-
-        Stroke(red, green, blue);
-        Ellipse(radius, radius, 2 * radius, 2 * radius);*//*
-    }*/
     void AddSprite()
     {
-        endBlock = new Sprite("triangle.png");
+        endBlock = new Sprite("endBlock.png");
+        scale = 0.4f;
         endBlock.SetOrigin(endBlock.width / 2, endBlock.height / 2);
+        endBlock.Mirror(false, true);
         AddChild(endBlock);
+        
     }
 }
 

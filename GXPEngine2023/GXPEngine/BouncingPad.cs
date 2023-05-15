@@ -27,9 +27,6 @@ public class BouncingPad : EasyDraw
     ColliderManager engine;
     List<Physics.Collider> colliders = new List<Physics.Collider> { };
 
-    private MapObject ball;
-    private Rope rope;
-
     AnimationSprite bouncePadSprite;
 
     EasyDraw canvas;
@@ -64,7 +61,6 @@ public class BouncingPad : EasyDraw
         bottomCenter.x = center.x;
         bottomCenter.y = center.y + bouncePadSprite.height;
         Console.WriteLine(bottomCenter);
-
     }
 
     void AddSprite()
@@ -100,7 +96,6 @@ public class BouncingPad : EasyDraw
         Stroke(0, 255, 0);
         StrokeWeight(2);//was 0
         Line(start.x, start.y, end.x, end.y);
-        //Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
     }
 
     public void RemoveColliders()
@@ -141,7 +136,7 @@ public class BouncingPad : EasyDraw
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         float distanceToMouse = (center - mousePos).Length();
-        if (distanceToMouse < 300)
+        if (distanceToMouse < 200)
         {
             float currentAngle = start.GetAngleDegreesTwoPoints(end);
             if (Input.GetMouseButtonDown(1))
