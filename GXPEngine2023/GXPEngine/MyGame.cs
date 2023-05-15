@@ -2,6 +2,7 @@ using System;
 using GXPEngine;
 using System.Drawing;
 using System.Collections.Generic;
+using GXPEngine.Core;
 
 public class MyGame : Game
 {
@@ -11,7 +12,7 @@ public class MyGame : Game
 
     public List<MapObject> movers;
 
-    public MyGame() : base(1920, 1080, false, false)
+    public MyGame() : base(1920, 1080, false, false)//, 1440, 810)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
@@ -29,23 +30,26 @@ public class MyGame : Game
 
                 Background background1 = new Background("background.png");
                 AddChild(background1);
-                //AddChild(new Player(new Vec2(200, 200), 30));
-
-                AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
-                //AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
-                AddChild(new Line(new Vec2(227, 0), new Vec2(227, 800))); // Left
-                AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
-                //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
                 Claw claw = new Claw(new Vec2(200, 50));
                 AddChild(claw);
 
-                EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
-                AddChild(endBlock1);
+                AddChild(new Button("square.png", new Vec2(500, 0), 100, 1300, "play"));
 
-                AddChild(new BouncingPad(new Vec2(400, 500), new Vec2(600, 500)));
-                //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
-                //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
+                //EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
+                //AddChild(endBlock1);
+
+                AddChild(new BouncingPad(new Vec2(50, 800), new Vec2(250, 800)));
+                
+                AddChild(new Fan(new Vec2(700, 800), new Vec2(900, 800), new Vec2(1,1)));
+
+                AddChild(new BouncingPad(new Vec2(500, -150), new Vec2(700, -150)));
+
+                AddChild(new Button("square.png", new Vec2(1300, 1200), 200, 1000, "play"));
+
+                AddChild(new BouncingPad(new Vec2(1200, 500), new Vec2(1400, 500)));
+
+                AddChild(new EndBlock(50, new Vec2(1650, 500)));
                 break;
 
 
@@ -80,10 +84,6 @@ public class MyGame : Game
                 AddChild(claw3);
 
                 break;
-            case 4:
-                Button button1 = new Button("square.png", new Vec2(100, 100), 200, 200);
-                break;
-
             case 4:
                 AddChild(new Button("square.png", new Vec2(width / 2, height / 2), 100, 100, "play"));
                 AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "play"));

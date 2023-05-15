@@ -13,7 +13,7 @@ public class AirStream : AnimationSprite
 
     public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("wind.png", 2, 2, -1, false, true)
     {
-
+        alpha = 0.5f;
 
         SetOrigin(width / 2, height);
         width = (int)pScale.x;

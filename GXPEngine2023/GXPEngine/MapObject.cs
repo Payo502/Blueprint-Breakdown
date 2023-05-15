@@ -121,16 +121,11 @@ public class MapObject : CircleBase
 
         if (pCol.other.owner is BouncingPad)
         {
-            Console.WriteLine("BouncingPad collision detected");
             BouncingPad bouncePad = (BouncingPad)pCol.other.owner;
             float bounceForce = bouncePad.GetBounceForce();
-            //Console.WriteLine("Before velocity update: " + velocity);
+            bouncePad.hasBounced = true;
             velocity.Reflect(_bounciness, pCol.normal);
-            velocity += pCol.normal * bounceForce;
-            //Console.WriteLine("After velocity update: " + velocity);
-            //bouncePad.AnimateBouncePad();
-            
-
+            velocity += pCol.normal * bounceForce;            
             return;
         }
         if (pCol.other.owner is EndBlock)

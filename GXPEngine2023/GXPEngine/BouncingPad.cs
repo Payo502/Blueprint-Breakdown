@@ -17,11 +17,10 @@ public class BouncingPad : EasyDraw
 
     public float bounceForce;
 
-    private float degreeChange = 15;
-    private bool followingMouse = false;
+    private float degreeChange = 30;
+    public float maxAngle;
 
     private Vec2 center;
-    private Vec2 Initi;
 
     public int lineWidth = 1;
 
@@ -35,9 +34,13 @@ public class BouncingPad : EasyDraw
 
     EasyDraw canvas;
 
+    Vec2 bottomCenter;
+
+    public bool hasBounced = false;
 
 
-    public BouncingPad(Vec2 pStart, Vec2 pEnd/*, MapObject pBall*/, float pBounceForce = 10f) : base(1500, 1500)
+
+    public BouncingPad(Vec2 pStart, Vec2 pEnd/*, MapObject pBall*/, float pBounceForce = 10f) : base(2000, 2000)
     {
         start = pStart;
         end = pEnd;
@@ -66,20 +69,24 @@ public class BouncingPad : EasyDraw
 
     void AddSprite()
     {
-        bouncePadSprite = new AnimationSprite("bouncepadAnimationSprite.png", 2, 4);
-        bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height - height/2);
+        bouncePadSprite = new AnimationSprite("bouncepadAnimation.png", 2, 4);
+        bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height);
         bouncePadSprite.SetCycle(0, 1);
         bouncePadSprite.scale = (end - start).Length() / bouncePadSprite.width;
         bouncePadSprite.x = center.x;
-        bouncePadSprite.y = center.y;
+        bouncePadSprite.y = center.y + bouncePadSprite.height;
         AddChild(bouncePadSprite);
     }
 
     public void AnimateBouncePad()
-    {
-        Console.WriteLine("Calling bounce Animation");
+    {       
         bouncePadSprite.SetCycle(0, 8);
-        bouncePadSprite.Animate(0.5f);
+        bouncePadSprite.Animate(0.2f);
+        if (bouncePadSprite.currentFrame >= bouncePadSprite.frameCount-1)
+        {         
+            bouncePadSprite.currentFrame = 0;
+            hasBounced = false;
+        }
     }
 
     public float GetBounceForce()
@@ -90,9 +97,10 @@ public class BouncingPad : EasyDraw
     void Draw()
     {
         Clear(Color.Empty);
-/*        Stroke(0, 255, 0);
+        Stroke(0, 255, 0);
         StrokeWeight(2);//was 0
-        Line(start.x, start.y, end.x, end.y);*/
+        Line(start.x, start.y, end.x, end.y);
+        //Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
     }
 
     public void RemoveColliders()
@@ -104,34 +112,26 @@ public class BouncingPad : EasyDraw
     void RotateToAngle(float targetAngle)
     {
         center = (start + end) / 2f;
-        float currentAngle = start.GetAngleDegreesTwoPoints(center);
+        float currentAngle = start.GetAngleDegreesTwoPoints(end);
         float angleDifference = targetAngle - currentAngle;
         
         Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
         Draw();
 
-
-
         start.RotateAroundDegrees(bottomCenter, angleDifference);
         end.RotateAroundDegrees(bottomCenter, angleDifference);
-        //Console.WriteLine(center);
-        //Console.WriteLine("Bottom center should be: " + bottomCenter.x + " " + bottomCenter.y + " and is: " + center.y);
-
-
         bouncePadSprite.rotation = targetAngle;
-        //bouncePadSprite.x = center.x;
-        //bouncePadSprite.y = center.y;
 
         foreach (Physics.Collider col in colliders)
         {
             if (col is Circle)
             {
-                col.position.RotateAroundDegrees(center, angleDifference);
+                col.position.RotateAroundDegrees(bottomCenter, angleDifference);
             }
             else
             {
-                ((LineSegment)col).start.RotateAroundDegrees(center, angleDifference);
-                ((LineSegment)col).end.RotateAroundDegrees(center, angleDifference);
+                ((LineSegment)col).start.RotateAroundDegrees(bottomCenter, angleDifference);
+                ((LineSegment)col).end.RotateAroundDegrees(bottomCenter, angleDifference);
             }
         }
         Draw();
@@ -141,21 +141,16 @@ public class BouncingPad : EasyDraw
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         float distanceToMouse = (center - mousePos).Length();
-        if (distanceToMouse < 200)
+        if (distanceToMouse < 300)
         {
-            float currentAngle = start.GetAngleDegreesTwoPoints(center);
-            if (Input.GetMouseButtonDown(0))
+            float currentAngle = start.GetAngleDegreesTwoPoints(end);
+            if (Input.GetMouseButtonDown(1))
             {
-                Console.WriteLine("Before change:" + currentAngle);
                 RotateToAngle(currentAngle + degreeChange);
-                Console.WriteLine("After change: " + currentAngle);
-
             }
-            else if (Input.GetMouseButtonDown(1))
+            else if (Input.GetMouseButtonDown(0))
             {
-                Console.WriteLine("Before change:" + currentAngle);
                 RotateToAngle(currentAngle - degreeChange);
-                Console.WriteLine("After change: " + currentAngle);
             }
         }
 
@@ -164,8 +159,10 @@ public class BouncingPad : EasyDraw
     void Update()
     {
         RotateBouncePad();
-        //AnimateBouncePad();
-
+        if (hasBounced == true)
+        {
+            AnimateBouncePad();
+        }
     }
 
 

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 public class Button : Sprite
 {
     Vec2 position;
-    bool isPressed = false;
     string action;
 
     MyGame myGame;
