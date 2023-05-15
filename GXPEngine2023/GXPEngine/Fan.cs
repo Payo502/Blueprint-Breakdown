@@ -16,13 +16,11 @@ public class Fan : EasyDraw
     public int lineWidth = 1;
 
     private float degreeChange = 15;
-
     AirStream airStream;
-
     private Vec2 center;
-
     readonly ColliderManager engine;
     readonly List<Physics.Collider> colliders = new List<Physics.Collider> { };
+    AnimationSprite fanAnimationSprite;
 
     public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500) : base(5000, 5000, false)
     {
@@ -39,15 +37,33 @@ public class Fan : EasyDraw
         engine = ColliderManager.main;
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
-
         float angle = GetAngle();
         center = (start + end) / 2;
         float length = (end - start).Length();
-        airStream = new AirStream(center, new Vec2(length, 500), 2);
+
+        airStream = new AirStream(center, new Vec2(length, 500), 1f);
         airStream.SetRotation(angle);
         AddChild(airStream);
 
         RemoveColliders();
+        AddSprite();
+    }
+
+    void AddSprite()
+    {
+        fanAnimationSprite = new AnimationSprite("fanAnimationSprite.png", 4, 2);
+        fanAnimationSprite.SetOrigin(fanAnimationSprite.width / 2,0);
+        fanAnimationSprite.SetCycle(0, 1);
+        fanAnimationSprite.scale = (end - start).Length() / fanAnimationSprite.width;
+        fanAnimationSprite.x = center.x;
+        fanAnimationSprite.y = center.y;
+        AddChild(fanAnimationSprite);
+    }
+
+    void AnimateFan()
+    {
+        fanAnimationSprite.SetCycle(1, 8);
+        fanAnimationSprite.Animate(0.2f);
     }
 
     public float GetAngle()
@@ -60,9 +76,9 @@ public class Fan : EasyDraw
     void Draw()
     {
         Clear(Color.Empty);
-        Stroke(0, 0, 255);
+/*        Stroke(0, 0, 255);
         StrokeWeight(0);//was 0
-        Line(start.x, start.y, end.x, end.y);
+        Line(start.x, start.y, end.x, end.y);*/
     }
 
     public void RemoveColliders()
@@ -76,10 +92,9 @@ public class Fan : EasyDraw
         center = (start + end) / 2f;
         float currentAngle = start.GetAngleDegreesTwoPoints(center);
         float angleDifference = targetAngle - currentAngle;
-
         start.RotateAroundDegrees(center, angleDifference);
         end.RotateAroundDegrees(center, angleDifference);
-
+        fanAnimationSprite.rotation = targetAngle;
         foreach (Physics.Collider col in colliders)
         {
             if (col is Circle)
@@ -92,11 +107,8 @@ public class Fan : EasyDraw
                 ((LineSegment)col).end.RotateAroundDegrees(center, angleDifference);
             }
         }
-
         airStream.SetRotation(targetAngle);
-
         Draw();
-
     }
 
     void RotateFan()
@@ -108,7 +120,6 @@ public class Fan : EasyDraw
             float currentAngle = start.GetAngleDegreesTwoPoints(center);
             if (Input.GetMouseButtonDown(0))
             {
-                Console.WriteLine("Mouse clicked near fan");
                 RotateToAngle(currentAngle + degreeChange);
             }
             else if (Input.GetMouseButtonDown(1))
@@ -117,10 +128,10 @@ public class Fan : EasyDraw
             }
         }
     }
-
     void Update()
     {
         RotateFan();
+        //AnimateFan();
     }
 }
 

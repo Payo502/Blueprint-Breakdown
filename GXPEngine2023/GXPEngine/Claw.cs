@@ -26,6 +26,8 @@ public class Claw : GameObject
     private float minX, maxX;
     private float minY, maxY;
 
+    private float upwardSpeed = 1f;
+
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
@@ -129,6 +131,15 @@ public class Claw : GameObject
         clawOpen = true;
         clawSprite.SetCycle(0, 1);
         clawSprite.Animate(0.5f);
+    }
+
+    public void MoveUpward()
+    {
+        Console.WriteLine("Move Upward Method Called");
+
+        position.y -= upwardSpeed;
+
+        UpdateScreen();
     }
 
     void Update()

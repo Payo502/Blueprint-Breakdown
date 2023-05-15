@@ -21,7 +21,7 @@ public class BouncingPad : EasyDraw
     private bool followingMouse = false;
 
     private Vec2 center;
-    private Vec2 bottomCenter;
+    private Vec2 Initi;
 
     public int lineWidth = 1;
 
@@ -51,14 +51,9 @@ public class BouncingPad : EasyDraw
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
 
-        //originalBounceForce = pBounceForce;
         bounceForce = pBounceForce;
 
-        //ball = pBall;
         AddSprite();
-
-        EasyDraw canvas = new EasyDraw(50, 50, false);
-        AddChild(canvas);
 
     }
 
@@ -88,10 +83,9 @@ public class BouncingPad : EasyDraw
     void Draw()
     {
         Clear(Color.Empty);
-        Stroke(0, 255, 0);
+/*        Stroke(0, 255, 0);
         StrokeWeight(2);//was 0
-        Line(start.x, start.y, end.x, end.y);
-
+        Line(start.x, start.y, end.x, end.y);*/
     }
 
     public void RemoveColliders()
@@ -103,35 +97,19 @@ public class BouncingPad : EasyDraw
     void RotateToAngle(float targetAngle)
     {
         center = (start + end) / 2f;
-
         float currentAngle = start.GetAngleDegreesTwoPoints(center);
         float angleDifference = targetAngle - currentAngle;
 
-        Vec2 bottomCenter = new Vec2(center.x, center.y + bouncePadSprite.height);
-
-        
-        Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
-        Draw();
-
-
-
-        start.RotateAroundDegrees(bottomCenter, angleDifference);
-        end.RotateAroundDegrees(bottomCenter, angleDifference);
-        Console.WriteLine(center);
-        Console.WriteLine("Bottom center should be: " + center.x + " " + (center.y + bouncePadSprite.height) + " and is: " + bottomCenter);
-
+        start.RotateAroundDegrees(center, angleDifference);
+        end.RotateAroundDegrees(center, angleDifference);
 
         bouncePadSprite.rotation = targetAngle;
-        bouncePadSprite.x = center.x;
-        bouncePadSprite.y = center.y;
 
         foreach (Physics.Collider col in colliders)
         {
             if (col is Circle)
             {
                 col.position.RotateAroundDegrees(center, angleDifference);
-
-
             }
             else
             {
@@ -139,9 +117,7 @@ public class BouncingPad : EasyDraw
                 ((LineSegment)col).end.RotateAroundDegrees(center, angleDifference);
             }
         }
-
         Draw();
-
     }
 
     void RotateBouncePad()

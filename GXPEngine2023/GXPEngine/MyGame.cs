@@ -33,22 +33,19 @@ public class MyGame : Game
 
                 AddChild(new Line(new Vec2(0, 300), new Vec2(400, 500))); // Bottom Slanted
                 //AddChild(new Line(new Vec2(0, 500), new Vec2(800, 500))); // Bottom Straight
-                AddChild(new Line(new Vec2(100, 0), new Vec2(100, 800))); // Left
+                AddChild(new Line(new Vec2(227, 0), new Vec2(227, 800))); // Left
                 AddChild(new Line(new Vec2(700, 0), new Vec2(700, 800))); // Right
                 //AddChild(new Line(new Vec2(0, 100), new Vec2(800, 100))); //Top
 
                 Claw claw = new Claw(new Vec2(200, 50));
                 AddChild(claw);
 
-                //EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
-                //AddChild(endBlock1);
+                EndBlock endBlock1 = new EndBlock(30, new Vec2(400, 400));
+                AddChild(endBlock1);
 
                 AddChild(new BouncingPad(new Vec2(400, 500), new Vec2(600, 500)));
                 //AddChild(new BouncingPad(new Vec2(500, 100), new Vec2(600, 300)));
                 //AddChild(new Fan(new Vec2(300, 500), new Vec2(600, 500)));
-
-
-
                 break;
 
 

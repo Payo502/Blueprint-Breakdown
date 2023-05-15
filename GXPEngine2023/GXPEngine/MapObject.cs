@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GXPEngine;
 using Physics;
@@ -10,12 +11,19 @@ using Physics;
 public class MapObject : CircleBase
 {
     AnimationSprite ballSprite;
+
+    private float lastCollisionTime = 0;
+    private bool levelComplete = false;
+
+    private float delayAfterEndBlock = 3000f;
+
+    private Claw claw;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
         isMoving = true;
         Draw(230, 200, 0);
-        _density = 0.9f;
+        _density = 0.9f;      
 
         AddSprite();
 
@@ -127,7 +135,17 @@ public class MapObject : CircleBase
         }
         if (pCol.other.owner is EndBlock)
         {
-            ((MyGame)game).LoadNextLevel();
+            //Console.WriteLine("EndBlock collision detected");
+            lastCollisionTime = Time.time - lastCollisionTime;
+            levelComplete = true;
+
+            
+            if (claw == null)
+            {
+                claw = game.FindObjectOfType<Claw>();
+            }
+            claw.MoveUpward();
+            
         }
 
 
@@ -150,10 +168,25 @@ public class MapObject : CircleBase
 
     }
 
+    void MoveToNextLevel()
+    {
+        //Console.WriteLine($"Time: {Time.time}, LastCollisionTime: {lastCollisionTime}, Delay: {delayAfterEndBlock}");
+        if (levelComplete && Time.time  > lastCollisionTime + delayAfterEndBlock)
+        {
+            Console.WriteLine("Loading level...");
+            lastCollisionTime = 0;
+            levelComplete = false;
+
+            ((MyGame)game).LoadNextLevel();
+        }
+    }
+
     protected override void Update()
     {
         base.Update();
         AnimateBall();
+
+        MoveToNextLevel();
     }
 }
 

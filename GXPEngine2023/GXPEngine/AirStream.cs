@@ -7,7 +7,6 @@ using GXPEngine;
 
 public class AirStream : AnimationSprite
 {
-    Vec2 airStrength;
     float strength;
     MyGame myGame;
     Vec2 position;
@@ -26,6 +25,10 @@ public class AirStream : AnimationSprite
 
         myGame = (MyGame)MyGame.main;
     }
+    public void SetRotation(float angle)
+    {
+        rotation = angle;
+    }
 
     void UpdateScreenPosition()
     {
@@ -34,21 +37,16 @@ public class AirStream : AnimationSprite
         SetXY(x, y);
     }
 
-    public void SetRotation(float angle)
-    {
-        //position.SetAngleRadians(angle);
-        rotation = angle;
-    }
-
     void Push()
     {
+        Vec2 airStrength = new Vec2(0, -strength);
+        airStrength.RotateDegrees(rotation);
+
         for (int i = 0; i < myGame.GetNumberOfMovers(); i++)
         {
             if (HitTest(myGame.GetMover(i)))
             {
-                CalculateAirStrength(position.Normal().GetAngleRadians());
                 myGame.GetMover(i).velocity += airStrength;
-                Console.WriteLine(position);
             }
         }
     }
@@ -56,14 +54,7 @@ public class AirStream : AnimationSprite
     void Update()
     {
         Push();
-
         Animate(0.1f);
-    }
-
-    public void CalculateAirStrength(float ownerRotation)
-    {
-        airStrength = new Vec2(0, -strength / 3);
-        airStrength.RotateDegrees(ownerRotation);
     }
 }
 
