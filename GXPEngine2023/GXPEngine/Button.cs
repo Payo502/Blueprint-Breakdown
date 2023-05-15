@@ -59,7 +59,7 @@ public class Button : Sprite
     {
         QuitAction();
         PlayAction();
-        SelectLevel();
+        RestartAction();
         Console.WriteLine("did action");
     }
 
@@ -80,14 +80,12 @@ public class Button : Sprite
         }
     }
 
-
-    void SelectLevel()
+    void RestartAction()
     {
-        if (action == "select")
+        if (action == "restart")
         {
-            myGame.LoadNextLevel();
-            Console.WriteLine("did something");
+            myGame.LoadFirstLevel();
+            Console.WriteLine("switched to first level");
         }
     }
-
 }

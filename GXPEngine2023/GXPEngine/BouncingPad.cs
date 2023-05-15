@@ -60,6 +60,10 @@ public class BouncingPad : EasyDraw
         EasyDraw canvas = new EasyDraw(50, 50, false);
         AddChild(canvas);
 
+        bottomCenter.x = center.x;
+        bottomCenter.y = center.y + bouncePadSprite.height;
+        Console.WriteLine(bottomCenter);
+
     }
 
     void AddSprite()
@@ -106,9 +110,6 @@ public class BouncingPad : EasyDraw
 
         float currentAngle = start.GetAngleDegreesTwoPoints(center);
         float angleDifference = targetAngle - currentAngle;
-
-        Vec2 bottomCenter = new Vec2(center.x, center.y + bouncePadSprite.height);
-
         
         Ellipse(bottomCenter.x, bottomCenter.y, 50, 50);
         Draw();
@@ -117,13 +118,13 @@ public class BouncingPad : EasyDraw
 
         start.RotateAroundDegrees(bottomCenter, angleDifference);
         end.RotateAroundDegrees(bottomCenter, angleDifference);
-        Console.WriteLine(center);
-        Console.WriteLine("Bottom center should be: " + center.x + " " + (center.y + bouncePadSprite.height) + " and is: " + bottomCenter);
+        //Console.WriteLine(center);
+        //Console.WriteLine("Bottom center should be: " + bottomCenter.x + " " + bottomCenter.y + " and is: " + center.y);
 
 
         bouncePadSprite.rotation = targetAngle;
-        bouncePadSprite.x = center.x;
-        bouncePadSprite.y = center.y;
+        //bouncePadSprite.x = center.x;
+        //bouncePadSprite.y = center.y;
 
         foreach (Physics.Collider col in colliders)
         {
@@ -153,24 +154,16 @@ public class BouncingPad : EasyDraw
             float currentAngle = start.GetAngleDegreesTwoPoints(center);
             if (Input.GetMouseButtonDown(0))
             {
-                Console.WriteLine("Mouse clicked near bouncepad");
-                /* if (!followingMouse)
-                 {
-                     Console.WriteLine("started following the mouse");
-                     followingMouse = true;
-                 }
-                 else
-                 {
-                     Console.WriteLine("stopped following the mouse"); //This is to make the bouncepad follow the mouse
-                     followingMouse = false;
-                 }*/
-
-
+                Console.WriteLine("Before change:" + currentAngle);
                 RotateToAngle(currentAngle + degreeChange);
+                Console.WriteLine("After change: " + currentAngle);
+
             }
             else if (Input.GetMouseButtonDown(1))
             {
+                Console.WriteLine("Before change:" + currentAngle);
                 RotateToAngle(currentAngle - degreeChange);
+                Console.WriteLine("After change: " + currentAngle);
             }
         }
 

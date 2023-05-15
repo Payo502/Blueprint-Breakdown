@@ -27,7 +27,7 @@ public class MyGame : Game
         {
             case 1:
 
-                Background background1 = new Background();
+                Background background1 = new Background("background.png");
                 AddChild(background1);
                 //AddChild(new Player(new Vec2(200, 200), 30));
 
@@ -65,7 +65,7 @@ public class MyGame : Game
 
             case 3: //fan testing
 
-                Background background3 = new Background();
+                Background background3 = new Background("background.png");
                 AddChild(background3);
 
 
@@ -86,8 +86,8 @@ public class MyGame : Game
 
             case 4:
                 AddChild(new Button("square.png", new Vec2(width / 2, height / 2), 100, 100, "play"));
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "select"));
-                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "play"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 100), 100, 100, "play"));
+                AddChild(new Button("square.png", new Vec2(width / 2, height / 2 + 200), 100, 100, "restart"));
                 Console.WriteLine("four");
                 break;
             case 5:
@@ -133,6 +133,12 @@ public class MyGame : Game
     public void LoadNextLevel()
     {
         startLevelNumber++;
+        LoadLevel(startLevelNumber);
+    }
+
+    public void LoadFirstLevel()
+    {
+        startLevelNumber = 1;
         LoadLevel(startLevelNumber);
     }
 

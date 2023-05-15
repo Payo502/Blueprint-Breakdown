@@ -8,7 +8,7 @@ using GXPEngine;
 public class Background : Sprite
 {
 
-    public Background() : base("background.png",false,false)
+    public Background(string filename) : base(filename,false,false)
     {
 
         SetOrigin(0, 0);
