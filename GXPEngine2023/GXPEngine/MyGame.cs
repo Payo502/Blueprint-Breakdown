@@ -47,7 +47,7 @@ public class MyGame : Game
                 
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                AddChild(new BouncingPad(new Vec2(220, 750), new Vec2(350, 750),45,20));
+                AddChild(new BouncingPad(new Vec2(220, 750), new Vec2(350, 750)));
 
                 AddChild(new Wall("wall.png", 600, 0, 100, 500));
                 
