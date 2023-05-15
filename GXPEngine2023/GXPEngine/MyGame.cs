@@ -19,7 +19,6 @@ public class MyGame : Game
     public void ResetCurrentLevel()
     {
         DestroyAll();
-
         LoadLevel(startLevelNumber);
     }
 
@@ -43,6 +42,7 @@ public class MyGame : Game
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
+
                 
                 AddChild(new Claw(new Vec2(300, 300)));
 
@@ -67,6 +67,8 @@ public class MyGame : Game
                 SetupWalls();
 
                 AddChild(new Claw(new Vec2(300, 300)));
+
+                AddChild(new EndBlock(50,new Vec2(300, 500)));
                 AddChild(new SecondBackground("Background_transparent.png"));
 
                 break;
