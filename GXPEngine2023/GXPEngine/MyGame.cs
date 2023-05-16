@@ -71,7 +71,7 @@ public class MyGame : Game
                 
                 AddChild(new Fan(new Vec2(800, 800), new Vec2(1000, 800), new Vec2(1,1)));
 
-                AddChild(new BouncingPad(new Vec2(930, 50), new Vec2(1030, 50), 145,20));
+                AddChild(new BouncingPad(new Vec2(930, 50), new Vec2(1030, 50),20));
 
                 AddChild(new BouncingPad(new Vec2(1300, 700), new Vec2(1450, 700)));
 
