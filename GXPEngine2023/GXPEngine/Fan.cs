@@ -28,7 +28,7 @@ public class Fan : EasyDraw
 
     MapObject mapObject;
 
-    public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500) : base(1000, 1000, false)
+    public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500, float airStrength = 1) : base(1000, 1000, false)
     {
         Clear(255);
         start = pStart;
