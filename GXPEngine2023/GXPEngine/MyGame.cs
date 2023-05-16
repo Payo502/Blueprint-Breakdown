@@ -6,14 +6,18 @@ using GXPEngine.Core;
 
 public class MyGame : Game
 {
-    public int startLevelNumber = 1;
+    public int startLevelNumber = 0;
 
     public List<MapObject> movers;
 
+    Sound backgroundSound;
+    SoundChannel backgroundSoundChannel;
     public MyGame() : base(1920, 1080, false, false)//, 1440, 810)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
+        backgroundSound = new Sound("Background_Music.mp3", true);
+        
     }
 
     public void ResetCurrentLevel()
@@ -22,15 +26,30 @@ public class MyGame : Game
         LoadLevel(startLevelNumber);
     }
 
+    void PlaySound()
+    {
+        if (backgroundSoundChannel != null)
+        {
+            backgroundSoundChannel.Stop();
+        }
+        backgroundSoundChannel = backgroundSound.Play();
+        backgroundSoundChannel.Volume = 1f;
+    }
+
     public void LoadLevel(int levelNumber)
     {
         startLevelNumber = levelNumber;
 
         DestroyAll();
 
+        if (startLevelNumber > 0)
+        {
+            PlaySound();
+        }
         switch (levelNumber)
         {
             case 0:
+
                 AddChild(new Background("mainScreenBackground.png"));
 
                 AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2 - 200, height/2 + 250), 280, 132, "play"));
@@ -44,16 +63,15 @@ public class MyGame : Game
 
                 SetupWalls();
 
-                
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                AddChild(new BouncingPad(new Vec2(220, 750), new Vec2(350, 750)));
+                AddChild(new BouncingPad(new Vec2(200, 750), new Vec2(350, 750), 20));
 
-                AddChild(new Wall("wall.png", 600, 0, 100, 500));
+                AddChild(new Wall("wall.png", 600, 0, 100, 400));
                 
-                AddChild(new Fan(new Vec2(800, 800), new Vec2(1000, 800), new Vec2(1,1)));
+                AddChild(new Fan(new Vec2(800, 800), new Vec2(1000, 800), new Vec2(1,1), 500, 1f));
 
-                AddChild(new BouncingPad(new Vec2(930, 50), new Vec2(1030, 50), 145,20));
+                AddChild(new BouncingPad(new Vec2(700, 100), new Vec2(800, 100),20));
 
                 AddChild(new BouncingPad(new Vec2(1300, 700), new Vec2(1450, 700)));
 
@@ -74,21 +92,23 @@ public class MyGame : Game
 
                 AddChild(new Wall("wall.png", 400, 700, 100, 500));
 
-                AddChild(new BouncingPad(new Vec2(375, 550), new Vec2(525, 550)));
+                AddChild(new BouncingPad(new Vec2(375, 550), new Vec2(525, 550), 5));
 
                 AddChild(new BouncingPad(new Vec2(500, 800), new Vec2(650, 800)));
 
-                AddChild(new Wall("wall.png", 700, 0, 200, 700));
+                AddChild(new Wall("wall.png", 750, 0, 150, 600));
 
                 AddChild(new BouncingPad(new Vec2(950, 800), new Vec2(1100, 800), 15));
 
-                AddChild(new Fan(new Vec2(950, 0), new Vec2(1150, 0), new Vec2(1, 1)));
+                Fan fan = new Fan(new Vec2(950, 250), new Vec2(1100, 250), new Vec2(1, 1), 500, 0.5f);
+                fan.RotateToAngle(90);
+                AddChild(fan);
 
                 AddChild(new Wall("wall.png", 1200, 500, 100, 500));
 
-                Wall wall = new Wall("wall.png", 1900, 300, 100, 400);
+/*                Wall wall = new Wall("wall.png", 1900, 300, 100, 400);
                 wall.rotation = 90;
-                AddChild(wall);
+                AddChild(wall);*/
 
                 AddChild(new EndBlock(50, new Vec2(1650, 700)));
 
@@ -102,17 +122,17 @@ public class MyGame : Game
 
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                Wall wall1 = new Wall("wall.png", 400, 600, 100, 400);
+                Wall wall1 = new Wall("wall.png", 200, 600, 100, 400);
                 wall1.rotation = 90;
                 AddChild(wall1);
 
-                AddChild(new BouncingPad(new Vec2(700, 800), new Vec2(850, 800), 30));
+                AddChild(new BouncingPad(new Vec2(700, 800), new Vec2(850, 800), 20));
 
                 BouncingPad bp1 = new BouncingPad(new Vec2(700, 0), new Vec2(850, 0));
                 bp1.RotateToAngle(180);
                 AddChild(bp1);                
 
-                AddChild(new BouncingPad(new Vec2(250, 700), new Vec2(400, 700)));
+                AddChild(new BouncingPad(new Vec2(250, 700), new Vec2(400, 700), 15));
 
                 AddChild(new Wall("wall.png", 900, 600, 100, 400));
 
@@ -125,8 +145,10 @@ public class MyGame : Game
                 Wall wall2 = new Wall("wall.png", 1950, 600, 100, 400);
                 wall2.rotation = 90;
                 AddChild(wall2);
-
-                AddChild(new Fan(new Vec2(1100, 0), new Vec2(1250, 0), new Vec2(1, 1)));
+               
+                Fan fan1 = new Fan(new Vec2(1100, 300), new Vec2(1250, 300), new Vec2(1, 1), 500, 0.4f);
+                fan1.RotateToAngle(180);
+                AddChild(fan1);
 
                 AddChild(new BouncingPad(new Vec2(1000, 800), new Vec2(1150, 800)));
 
@@ -137,12 +159,6 @@ public class MyGame : Game
                 AddChild(new EndBlock(50, new Vec2(1650, 800)));
 
                 AddChild(new SecondBackground("Background_transparent.png"));
-                break;
-            case 4:
-                Console.WriteLine("four");
-                break;
-            case 5:
-                Console.WriteLine("five");
                 break;
         }
     }
@@ -180,6 +196,10 @@ public class MyGame : Game
             if (child is EndBlock endBlock)
             {
                 endBlock.engine.RemoveSolidCollider(endBlock.myCollider);
+            }
+            if (child is Wall wall)
+            {
+                wall.RemoveColliders();
             }
             child.LateDestroy();
 

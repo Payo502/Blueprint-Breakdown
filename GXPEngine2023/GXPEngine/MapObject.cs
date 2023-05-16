@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,6 +23,8 @@ public class MapObject : CircleBase
 
     bool lineBounce = false;
 
+    Vec2 normal;
+
     private Claw claw;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
@@ -31,7 +34,6 @@ public class MapObject : CircleBase
         _density = 0.9f;      
 
         AddSprite();
-
     }
 
     protected virtual void AddSprite()
@@ -86,20 +88,11 @@ public class MapObject : CircleBase
     protected override void Draw(byte red, byte green, byte blue)
     {
         Clear(Color.Empty);
-        /*if (isMoving)
+        if (normal.x != 0 || normal.y != 0)
         {
-            Fill(red, green, blue);
+            Gizmos.DrawLine(normal.x, normal.y);
+            Console.WriteLine(normal);
         }
-        else
-        {
-            red = 255;
-            green = 255;
-            blue = 255;
-            Fill(red, green, blue, 0);
-        }
-
-        Stroke(red, green, blue);
-        Ellipse(radius, radius, 2 * radius, 2 * radius);*/
     }
 
     public void ApplyForce(Vec2 force)
@@ -142,7 +135,16 @@ public class MapObject : CircleBase
             float bounceForce = bouncePad.GetBounceForce();
             bouncePad.hasBounced = true;
             velocity.Reflect(_bounciness, pCol.normal);
-            velocity += pCol.normal * bounceForce;            
+            velocity += pCol.normal * bounceForce;
+            normal = pCol.normal;
+            Console.WriteLine("THIS IS THE NORMAL " + pCol.normal);
+            return;
+        }
+        if (pCol.other.owner is Wall)
+        {
+            Wall wall = (Wall)pCol.other.owner;
+            velocity.Reflect(_bounciness, pCol.normal);
+            velocity += pCol.normal;
             return;
         }
         if (pCol.other.owner is EndBlock)
@@ -195,7 +197,6 @@ public class MapObject : CircleBase
         ResetLevel();
         if (lineBounce)
         {
-            Console.WriteLine("calling animation death");
             AnimateDeath();
         }
         else

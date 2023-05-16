@@ -23,6 +23,11 @@ public class Fan : EasyDraw
 
     private bool isOn;
 
+    Sound fanSound;
+    SoundChannel fanSoundChannel;
+
+    MapObject mapObject;
+
     public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500) : base(1000, 1000, false)
     {
         Clear(255);
@@ -42,11 +47,14 @@ public class Fan : EasyDraw
         center = (start + end) / 2;
         float length = (end - start).Length();
 
-        airStream = new AirStream(center, new Vec2(length, 500), 1f);
+        airStream = new AirStream(center, new Vec2(length, 500), airStrength);
         airStream.SetRotation(angle);
         AddChild(airStream);
         RemoveColliders();
         AddSprite();
+
+        fanSound = new Sound("Fan_Sound.wav");
+        mapObject = game.FindObjectOfType<MapObject>();
     }
 
     void AddSprite()
@@ -87,7 +95,7 @@ public class Fan : EasyDraw
             engine.RemoveSolidCollider(col);
     }
 
-    void RotateToAngle(float targetAngle)
+    public void RotateToAngle(float targetAngle)
     {
         center = (start + end) / 2f;
         float currentAngle = start.GetAngleDegreesTwoPoints(center);
@@ -115,22 +123,54 @@ public class Fan : EasyDraw
     {
         Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
         float distanceToMouse = (center - mousePos).Length();
+
+        
         if (distanceToMouse < 200)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 isOn = !isOn;
+                if (isOn)
+                {
+                    fanSoundChannel = fanSound.Play();
+                    fanSoundChannel.Volume = 10f;
+                }
+                if(!isOn)
+                {
+                    fanSoundChannel.Stop();
+                }
             }
         }
     }
+
+    void UpdateSoundPanning(MapObject mapObject)
+    {
+        if (fanSoundChannel != null)
+        {
+            if (mapObject != null)
+            {
+                float referencePosition = mapObject.x;
+                float fanPosition = this.x;
+                float relativePosition = fanPosition - referencePosition;
+                float panRange = game.width / 2;
+                float pan = Mathf.Clamp(relativePosition / panRange, -1f, 1f);
+                fanSoundChannel.Pan = pan;
+            }
+        }
+    }
+
     void Update()
     {
+
+        UpdateSoundPanning(mapObject);
         TurnFanOn();
         if (isOn)
         {
             AnimateFan();
             airStream.Push();
             airStream.visible = true;
+
+            
         }
         else
         {
