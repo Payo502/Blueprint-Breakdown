@@ -80,13 +80,21 @@ public class BouncingPad : EasyDraw
 
     void AddSprite()
     {
-        bouncePadSprite = new AnimationSprite("bouncepadAnimation.png", 2, 4);
-        bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height);
-        bouncePadSprite.SetCycle(0, 1);
-        bouncePadSprite.scale = (end - start).Length() / bouncePadSprite.width;
-        bouncePadSprite.x = center.x;
-        bouncePadSprite.y = center.y + bouncePadSprite.height;
-        AddChild(bouncePadSprite);
+        if (bounceForce > 10)
+        {
+            //bouncePadSprite = new Sprite();
+        }
+        else
+        {
+            bouncePadSprite = new AnimationSprite("bouncepadAnimation.png", 2, 4);
+            bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height);
+            bouncePadSprite.SetCycle(0, 1);
+            bouncePadSprite.scale = (end - start).Length() / bouncePadSprite.width;
+            bouncePadSprite.x = center.x;
+            bouncePadSprite.y = center.y + bouncePadSprite.height;
+            AddChild(bouncePadSprite);
+        }
+        
     }
 
     public void AnimateBouncePad()
