@@ -26,6 +26,9 @@ public class Claw : GameObject
     private float minX, maxX;
     private float minY, maxY;
 
+
+    Sound clawSound;
+    SoundChannel clawSoundChannel;
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
@@ -43,6 +46,9 @@ public class Claw : GameObject
         maxY = position.y + 50;
 
         UpdateScreen();
+
+        clawSound = new Sound("Claw sound.mp3");
+
 
     }
 
@@ -103,7 +109,7 @@ public class Claw : GameObject
             {
                 myGame = game.FindObjectOfType<MyGame>();
             }
-            MapObject ball1 = new MapObject(38, new Vec2(x+10, y + 120), clawVelocity);
+            MapObject ball1 = new MapObject(38, new Vec2(x+10, y + 120), clawVelocity* 2f);
             parent.AddChild(ball1);
             myGame.movers.Add(ball1);
 
@@ -118,6 +124,7 @@ public class Claw : GameObject
             AnimateClawOpen();
         }
     }
+
 
 
     void AnimateClawOpen()

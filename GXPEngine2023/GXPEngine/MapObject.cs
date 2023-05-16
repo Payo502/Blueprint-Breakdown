@@ -13,6 +13,7 @@ public class MapObject : CircleBase
 {
     AnimationSprite ballSprite;
 
+
     private float lastCollisionTime = 0;
     private float lineCollisionTime = 0;
     private bool levelComplete = false;
@@ -44,6 +45,8 @@ public class MapObject : CircleBase
         ballSprite.scale = 0.25f;
         AddChild(ballSprite);
     }
+    
+
 
     void AnimateDeath()
     {

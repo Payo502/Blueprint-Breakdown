@@ -82,7 +82,13 @@ public class BouncingPad : EasyDraw
     {
         if (bounceForce > 10)
         {
-            //bouncePadSprite = new Sprite();
+            bouncePadSprite = new AnimationSprite("strong_spring.png",1,1);
+            bouncePadSprite.SetOrigin(bouncePadSprite.width / 2, bouncePadSprite.height);
+            bouncePadSprite.SetCycle(0, 1);
+            bouncePadSprite.scale = (end - start).Length() / bouncePadSprite.width;
+            bouncePadSprite.x = center.x;
+            bouncePadSprite.y = center.y + bouncePadSprite.height;
+            AddChild(bouncePadSprite);
         }
         else
         {
@@ -116,9 +122,9 @@ public class BouncingPad : EasyDraw
     void Draw()
     {
         Clear(Color.Empty);
-        //Stroke(0, 255, 0);
-        //StrokeWeight(2);//was 0
-        //Line(start.x, start.y, end.x, end.y);
+/*        Stroke(0, 255, 0);
+        StrokeWeight(2);//was 0
+        Line(start.x, start.y, end.x, end.y);*/
     }
 
     public void RemoveColliders()
@@ -180,7 +186,7 @@ public class BouncingPad : EasyDraw
     void Update()
     {
         RotateBouncePad();
-        if (hasBounced)
+        if (hasBounced && bounceForce > 10)
         {
             AnimateBouncePad();
         }
