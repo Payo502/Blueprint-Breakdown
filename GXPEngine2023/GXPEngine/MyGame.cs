@@ -11,7 +11,7 @@ public class MyGame : Game
 
     public List<MapObject> movers;
 
-    public MyGame() : base(800, 600, false, false)
+    public MyGame() : base(1920, 1080, false, false)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
