@@ -136,8 +136,14 @@ public class Claw : GameObject
 
     public void MoveUpward(int upSpeed)
     { 
-
         position.y -= upSpeed;
+
+        UpdateScreen();
+    }
+
+    void MoveDownward(int downSpeed)
+    {
+        position.y += downSpeed;
 
         UpdateScreen();
     }
@@ -151,4 +157,3 @@ public class Claw : GameObject
         }
     }
 }
-
