@@ -59,6 +59,13 @@ public class MyGame : Game
 
             case 1:
 
+                AddChild(new Background("tutorial.png"));
+                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width / 2, height / 2), 200, 100, "play"));
+
+                break;
+
+            case 2:
+
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
@@ -82,7 +89,7 @@ public class MyGame : Game
                 break;
 
 
-            case 2:
+            case 3:
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
@@ -116,7 +123,7 @@ public class MyGame : Game
                 AddChild(new SecondBackground("Background_transparent.png"));
                 break;
 
-            case 3:
+            case 4:
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
