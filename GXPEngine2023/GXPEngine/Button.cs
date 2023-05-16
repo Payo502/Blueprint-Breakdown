@@ -7,33 +7,113 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class Button : Sprite
+public class Button : GameObject
 {
     Vec2 position;
-    bool isPressed = false;
+    string action;
 
-    private Vec2 center;
+    MyGame myGame;
+    Sprite hoverSprite;
+    Sprite buttonSprite;
 
 
-    public Button(string filename, Vec2 pPosition, int pWidth, int pHeight) : base(filename)
+    public Button(string filename, string hoverFilename, Vec2 pPosition, int pWidth, int pHeight, string pAction) : base()
     {
-        SetOrigin(position.x / 2, position.y / 2); 
         position = pPosition;
-        width = pWidth;
-        height = pHeight;
-        center = new Vec2();
+
+        buttonSprite = new Sprite(filename);
+        hoverSprite = new Sprite(hoverFilename);
+
+        buttonSprite.SetOrigin(buttonSprite.width / 2, buttonSprite.height / 2);
+        buttonSprite.width = pWidth;
+        buttonSprite.height = pHeight;
+
+        hoverSprite.SetOrigin(hoverSprite.width / 2, hoverSprite.height / 2);
+        hoverSprite.width = pWidth;
+        hoverSprite.height = pHeight;
+        hoverSprite.visible = false;
+
+        AddChild(buttonSprite);
+        AddChild(hoverSprite);
+
+        action = pAction;
+        myGame = game.FindObjectOfType<MyGame>();
+
+        UpdateScreenPosition();
+
+    }
+
+    public void UpdateScreenPosition()
+    {
+        x = position.x;
+        y = position.y;
+        position.SetXY(x, y);
     }
 
 
     void Update()
     {
         Click();
+        Hover();
     }
 
     void Click()
     {
-        Vec2 mousePos = new Vec2(Input.mouseX, Input.mouseY);
-        float distanceToMouse = (center - mousePos).Length();
+        float mouseX = Input.mouseX;
+        float mouseY = Input.mouseY;
+        if (buttonSprite.HitTestPoint(mouseX, mouseY) || hoverSprite.HitTestPoint(mouseX, mouseY))
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                DoAction();
+            }
+        }
     }
 
+    void Hover()
+    {
+        float mouseX = Input.mouseX;
+        float mouseY = Input.mouseY;
+        if (buttonSprite.HitTestPoint(mouseX, mouseY) || hoverSprite.HitTestPoint(mouseX, mouseY))
+        {
+            buttonSprite.visible = false;
+            hoverSprite.visible = true;
+        }
+        else
+        {
+            buttonSprite.visible = true;
+            hoverSprite.visible = false;
+        }
+    }
+
+    void DoAction()
+    {
+        QuitAction();
+        PlayAction();
+        RestartAction();
+    }
+
+    void QuitAction()
+    {
+        if (action == "quit")
+        {
+            myGame.Destroy();
+        }
+    }
+    
+    void PlayAction()
+    {
+        if (action == "play")
+        {
+            myGame.LoadNextLevel();
+        }
+    }
+
+    void RestartAction()
+    {
+        if (action == "restart")
+        {
+            myGame.LoadFirstLevel();
+        }
+    }
 }

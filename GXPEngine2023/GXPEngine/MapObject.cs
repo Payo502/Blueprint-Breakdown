@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GXPEngine;
 using Physics;
@@ -10,12 +11,24 @@ using Physics;
 public class MapObject : CircleBase
 {
     AnimationSprite ballSprite;
+
+    private float lastCollisionTime = 0;
+    private float lineCollisionTime = 0;
+    private bool levelComplete = false;
+    private bool levelReset = false;
+
+    private float delayAfterEndBlock = 3000f;
+    private float delayAfterLine = 1000;
+
+    bool lineBounce = false;
+
+    private Claw claw;
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
         isMoving = true;
         Draw(230, 200, 0);
-        _density = 0.9f;
+        _density = 0.9f;      
 
         AddSprite();
 
@@ -23,16 +36,25 @@ public class MapObject : CircleBase
 
     protected virtual void AddSprite()
     {
-        ballSprite = new AnimationSprite("ball.png", 4, 2);
+        ballSprite = new AnimationSprite("ball_animation.png", 4, 4);
+        ballSprite.SetCycle(0, 8);
         ballSprite.SetOrigin(ballSprite.width / 2, ballSprite.height / 2);
-        ballSprite.scale = 0.4f;
+        ballSprite.scale = 0.25f;
         AddChild(ballSprite);
+    }
+
+    void AnimateDeath()
+    {
+        ballSprite.SetCycle(9, 7);
+        ballSprite.Animate(0.1f);
+        
     }
 
     void AnimateBall()
     {
         ballSprite.SetCycle(0, 8);
         ballSprite.Animate(0.25f);
+        
     }
 
 
@@ -92,6 +114,8 @@ public class MapObject : CircleBase
         //Console.WriteLine("ResolveCollisions Called");
         if (pCol.other.owner is Line)
         {
+            lineCollisionTime = Time.time - lineCollisionTime;
+            levelReset = true;
 
             Line segment = (Line)pCol.other.owner;
             if (segment.isRotating)
@@ -105,51 +129,81 @@ public class MapObject : CircleBase
             }
             else
             {
-                velocity.Reflect(bounciness, pCol.normal);
+                //velocity.Reflect(bounciness, pCol.normal);
+                MoveClaw(3);
+                lineBounce = true;
                 return;
             }
-
         }
 
         if (pCol.other.owner is BouncingPad)
         {
-            Console.WriteLine("BouncingPad collision detected");
             BouncingPad bouncePad = (BouncingPad)pCol.other.owner;
             float bounceForce = bouncePad.GetBounceForce();
-            Console.WriteLine("Before velocity update: " + velocity);
+            bouncePad.hasBounced = true;
             velocity.Reflect(_bounciness, pCol.normal);
-            velocity += pCol.normal * bounceForce;
-            Console.WriteLine("After velocity update: " + velocity);
+            velocity += pCol.normal * bounceForce;            
             return;
         }
         if (pCol.other.owner is EndBlock)
         {
-            ((MyGame)game).LoadNextLevel();
-        }
-
-
-        if (pCol.other.owner is Player)
-        {
-            NewtonLawsBalls((MapObject)pCol.other.owner, pCol);
-        }
-        if (pCol.other.owner is MapObject)
-        {
-            if (((MapObject)pCol.other.owner).isMoving)
-            {
-                NewtonLawsBalls((MapObject)pCol.other.owner, pCol);
-            }
-            else
-            {
-                velocity.Reflect(bounciness, pCol.normal);
-            }
-
+            //Console.WriteLine("EndBlock collision detected");
+            lastCollisionTime = Time.time - lastCollisionTime;
+            levelComplete = true;
+            MoveClaw(1);
         }
     }
+
+    void MoveClaw(int upSpeed)
+    {
+        if (claw == null)
+        {
+            claw = game.FindObjectOfType<Claw>();
+        }
+        claw.MoveUpward(upSpeed);
+    }
+
+    void MoveToNextLevel()
+    {
+        //Console.WriteLine($"Time: {Time.time}, LastCollisionTime: {lastCollisionTime}, Delay: {delayAfterEndBlock}");
+        if (levelComplete && Time.time  > lastCollisionTime + delayAfterEndBlock)
+        {
+            Console.WriteLine("Loading level...");
+            lastCollisionTime = 0;
+            levelComplete = false;
+
+            ((MyGame)game).LoadNextLevel();
+        }
+    }
+
+    void ResetLevel()
+    {
+        if (levelReset && Time.time > lineCollisionTime + delayAfterLine)
+        {
+            Console.WriteLine("Reseting Level....");
+            ((MyGame)game).ResetCurrentLevel();
+            lineCollisionTime = 0;
+            levelReset = false;
+        }
+    }
+
 
     protected override void Update()
     {
         base.Update();
-        AnimateBall();
+        MoveToNextLevel();
+        ResetLevel();
+        if (lineBounce)
+        {
+            Console.WriteLine("calling animation death");
+            AnimateDeath();
+        }
+        else
+        {
+            AnimateBall();
+            //AnimateDeath();
+        }
+
     }
 }
 

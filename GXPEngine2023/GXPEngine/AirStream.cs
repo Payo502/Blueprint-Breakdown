@@ -7,12 +7,12 @@ using GXPEngine;
 
 public class AirStream : AnimationSprite
 {
-    Vec2 airStrength;
     float strength;
     MyGame myGame;
     Vec2 position;
 
-    public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("wind.png", 2, 4, -1, false, true)
+
+    public AirStream(Vec2 pPosition, Vec2 pScale, float pStrength) : base("wind.png", 2, 2, -1, false, true)
     {
         alpha = 0.5f;
 
@@ -21,11 +21,14 @@ public class AirStream : AnimationSprite
         height = (int)pScale.y;
         position = pPosition;
         UpdateScreenPosition();
-        SetCycle(0, 8);
-
+        SetCycle(0, 9);
         strength = pStrength;
 
         myGame = (MyGame)MyGame.main;
+    }
+    public void SetRotation(float angle)
+    {
+        rotation = angle;
     }
 
     void UpdateScreenPosition()
@@ -35,30 +38,27 @@ public class AirStream : AnimationSprite
         SetXY(x, y);
     }
 
-    public void SetRotation(float angle)
+    public void Push()
     {
-        //position.SetAngleRadians(angle);
-        rotation = angle;
-    }
+        if (!visible)
+        {
+            return;
+        }
+        Vec2 airStrength = new Vec2(0, -strength);
+        airStrength.RotateDegrees(rotation);
 
-    void Update()
-    {
         for (int i = 0; i < myGame.GetNumberOfMovers(); i++)
         {
             if (HitTest(myGame.GetMover(i)))
             {
-                CalculateAirStrength(position.Normal().GetAngleRadians());
                 myGame.GetMover(i).velocity += airStrength;
             }
         }
-
-        Animate(0.25f);
     }
 
-    public void CalculateAirStrength(float ownerRotation)
+    void Update()
     {
-        airStrength = new Vec2(0, -strength / 3);
-        airStrength.RotateDegrees(ownerRotation);
+        Animate(0.1f);
     }
 }
 

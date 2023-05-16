@@ -51,7 +51,6 @@
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="CircleBase.cs" />
-    <Compile Include="Level.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MapObject.cs" />
     <Compile Include="MyGame.cs" />
@@ -102,6 +101,8 @@
     <Compile Include="Physics Engine\Vec2.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Rope.cs" />
+    <Compile Include="SecondBackground.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -21,28 +21,28 @@ public class Claw : GameObject
 
     public bool hasBall;
 
+    bool clawOpen = false;
+
     private float minX, maxX;
     private float minY, maxY;
 
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
-        clawSprite = new AnimationSprite("claw.png", 1, 2);
+        clawSprite = new AnimationSprite("clawAnimationSprite.png", 4, 2);
         clawSprite.SetOrigin(clawSprite.width / 2, clawSprite.height / 2 + 30);
-        clawSprite.SetCycle(1, 1);
-        clawSprite.scale = 0.4f;
+        clawSprite.SetCycle(1, 6);
+        clawSprite.scale = 0.8f;
         AddChild(clawSprite);
 
         Mass = 10f;
 
-        minX = position.x - 200;
+        minX = position.x;
         maxX = position.x + 200;
         minY = position.y - 100;
-        maxY = position.y + 100;
+        maxY = position.y + 50;
 
         UpdateScreen();
-
-
 
     }
 
@@ -103,18 +103,14 @@ public class Claw : GameObject
             {
                 myGame = game.FindObjectOfType<MyGame>();
             }
-            MapObject ball1 = new MapObject(30, new Vec2(x+10, y + 120), clawVelocity);
+            MapObject ball1 = new MapObject(38, new Vec2(x+10, y + 120), clawVelocity);
             parent.AddChild(ball1);
             myGame.movers.Add(ball1);
 
             hasBall = true;
 
-
-            Rope rope = new Rope(20, ball1);
-            //parent.AddChild(rope);
-
             float v1_final = ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * clawVelocity.x + ((2 * ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
-            float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
+            float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x * 2;
 
             velocity.x = v1_final;
             ball1.velocity.x = v2_final;
@@ -126,13 +122,27 @@ public class Claw : GameObject
 
     void AnimateClawOpen()
     {
+        clawOpen = true;
         clawSprite.SetCycle(0, 1);
         clawSprite.Animate(0.5f);
+    }
+
+    public void MoveUpward(int upSpeed)
+    {
+        Console.WriteLine("Move Upward Method Called");
+
+        position.y -= upSpeed;
+
+        UpdateScreen();
     }
 
     void Update()
     {
         HandleInput();
+        if (!clawOpen)
+        {
+            clawSprite.Animate(0.25f);
+        }
     }
 }
 
