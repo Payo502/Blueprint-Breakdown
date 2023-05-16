@@ -61,19 +61,19 @@ public class Claw : GameObject
 
         Vec2 direction = new Vec2(0, 0);
 
-        if (Input.GetKey(Key.RIGHT))
+        if (Input.GetKey(Key.D))
         {
             direction.y -= 1;
         }
-        if (Input.GetKey(Key.LEFT))
+        if (Input.GetKey(Key.A))
         {
             direction.y += 1;
         }
-        if (Input.GetKey(Key.UP))
+        if (Input.GetKey(Key.W))
         {
             direction.x -= 1;
         }
-        if (Input.GetKey(Key.DOWN))
+        if (Input.GetKey(Key.S))
         {
             direction.x += 1;
         }

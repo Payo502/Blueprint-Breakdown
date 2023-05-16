@@ -6,14 +6,18 @@ using GXPEngine.Core;
 
 public class MyGame : Game
 {
-    public int startLevelNumber = 1;
+    public int startLevelNumber = 0;
 
     public List<MapObject> movers;
 
+    Sound backgroundSound;
+    SoundChannel backgroundSoundChannel;
     public MyGame() : base(1920, 1080, false, false)//, 1440, 810)
     {
         movers = new List<MapObject>();
         LoadLevel(startLevelNumber);
+        backgroundSound = new Sound("Background_Music.mp3", true);
+        
     }
 
     public void ResetCurrentLevel()
@@ -22,15 +26,30 @@ public class MyGame : Game
         LoadLevel(startLevelNumber);
     }
 
+    void PlaySound()
+    {
+        if (backgroundSoundChannel != null)
+        {
+            backgroundSoundChannel.Stop();
+        }
+        backgroundSoundChannel = backgroundSound.Play();
+        backgroundSoundChannel.Volume = 1f;
+    }
+
     public void LoadLevel(int levelNumber)
     {
         startLevelNumber = levelNumber;
 
         DestroyAll();
 
+        if (startLevelNumber > 0)
+        {
+            PlaySound();
+        }
         switch (levelNumber)
         {
             case 0:
+
                 AddChild(new Background("mainScreenBackground.png"));
 
                 AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width/2 - 200, height/2 + 250), 280, 132, "play"));
@@ -44,7 +63,6 @@ public class MyGame : Game
 
                 SetupWalls();
 
-                
                 AddChild(new Claw(new Vec2(300, 300)));
 
                 AddChild(new BouncingPad(new Vec2(220, 750), new Vec2(350, 750)));
@@ -86,9 +104,9 @@ public class MyGame : Game
 
                 AddChild(new Wall("wall.png", 1200, 500, 100, 500));
 
-                Wall wall = new Wall("wall.png", 1900, 300, 100, 400);
+/*                Wall wall = new Wall("wall.png", 1900, 300, 100, 400);
                 wall.rotation = 90;
-                AddChild(wall);
+                AddChild(wall);*/
 
                 AddChild(new EndBlock(50, new Vec2(1650, 700)));
 
