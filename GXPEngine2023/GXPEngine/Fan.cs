@@ -23,7 +23,7 @@ public class Fan : EasyDraw
 
     private bool isOn;
 
-    public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500) : base(1000, 1000, false)
+    public Fan(Vec2 pStart, Vec2 pEnd, Vec2 pScale, int airLength = 500, float airStrength = 1f) : base(1000, 1000, false)
     {
         Clear(255);
         start = pStart;
@@ -42,7 +42,7 @@ public class Fan : EasyDraw
         center = (start + end) / 2;
         float length = (end - start).Length();
 
-        airStream = new AirStream(center, new Vec2(length, 500), 1f);
+        airStream = new AirStream(center, new Vec2(length, 500), airStrength);
         airStream.SetRotation(angle);
         AddChild(airStream);
         RemoveColliders();
@@ -87,7 +87,7 @@ public class Fan : EasyDraw
             engine.RemoveSolidCollider(col);
     }
 
-    void RotateToAngle(float targetAngle)
+    public void RotateToAngle(float targetAngle)
     {
         center = (start + end) / 2f;
         float currentAngle = start.GetAngleDegreesTwoPoints(center);

@@ -108,9 +108,9 @@ public class BouncingPad : EasyDraw
     void Draw()
     {
         Clear(Color.Empty);
-        Stroke(0, 255, 0);
-        StrokeWeight(2);//was 0
-        Line(start.x, start.y, end.x, end.y);
+        //Stroke(0, 255, 0);
+        //StrokeWeight(2);//was 0
+        //Line(start.x, start.y, end.x, end.y);
     }
 
     public void RemoveColliders()
