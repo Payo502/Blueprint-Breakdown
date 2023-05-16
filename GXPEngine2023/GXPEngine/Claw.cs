@@ -26,8 +26,6 @@ public class Claw : GameObject
     private float minX, maxX;
     private float minY, maxY;
 
-    private float upwardSpeed = 1f;
-
     public Claw(Vec2 pPosition) : base()
     {
         position = pPosition;
@@ -112,7 +110,7 @@ public class Claw : GameObject
             hasBall = true;
 
             float v1_final = ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * clawVelocity.x + ((2 * ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
-            float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x;
+            float v2_final = ((2 * Mass) / (Mass + ball1.Mass)) * clawVelocity.x - ((Mass - ball1.Mass) / (Mass + ball1.Mass)) * ball1.velocity.x * 2;
 
             velocity.x = v1_final;
             ball1.velocity.x = v2_final;
@@ -129,11 +127,11 @@ public class Claw : GameObject
         clawSprite.Animate(0.5f);
     }
 
-    public void MoveUpward()
+    public void MoveUpward(int upSpeed)
     {
         Console.WriteLine("Move Upward Method Called");
 
-        position.y -= upwardSpeed;
+        position.y -= upSpeed;
 
         UpdateScreen();
     }
