@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AirStream.cs" />
+    <Compile Include="Arrow.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BouncingPad.cs" />
     <Compile Include="Button.cs" />
