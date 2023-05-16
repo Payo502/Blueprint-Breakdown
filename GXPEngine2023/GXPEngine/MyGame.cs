@@ -70,19 +70,28 @@ public class MyGame : Game
 
                 SetupWalls();
 
+                AddChild(new Hints("dht.png", 800, 230, 150, 100));
+                AddChild(new Hints("a1.png", 950, 250, 200, 100));
+
                 AddChild(new Claw(new Vec2(300, 300)));
 
                 AddChild(new BouncingPad(new Vec2(250, 600), new Vec2(400, 600)));
 
+                AddChild(new Hints("rm.png", 500, 600, 150, 100));
+
                 //AddChild(new Wall("wall.png", 600, 0, 100, 400));
                 
                 AddChild(new Fan(new Vec2(800, 800), new Vec2(1000, 800), new Vec2(1,1), 500, 1f));
+
+                AddChild(new Hints("tmo.png", 750, 850, 200, 100));
 
                 //AddChild(new BouncingPad(new Vec2(700, 100), new Vec2(800, 100)));
 
                 AddChild(new BouncingPad(new Vec2(1200, 700), new Vec2(1350, 700)));
 
                 AddChild(new EndBlock(50, new Vec2(1650, 420)));
+
+                AddChild(new Hints("end.png", 1650, 580, 100, 50));
 
 
                 AddChild(new SecondBackground("Background_transparent.png"));
@@ -100,13 +109,18 @@ public class MyGame : Game
 
                 AddChild(new Wall("wall.png", 400, 700, 100, 500));
 
-                AddChild(new BouncingPad(new Vec2(375, 550), new Vec2(525, 550), 5));
+                AddChild(new BouncingPad(new Vec2(375, 550), new Vec2(525, 550), 5));       
 
                 //AddChild(new BouncingPad(new Vec2(500, 800), new Vec2(650, 800)));
 
                 AddChild(new Wall("wall.png", 750, 0, 150, 500));
 
+                AddChild(new Hints("uwu.png", 650, 300, 100, 100));
+
                 AddChild(new BouncingPad(new Vec2(950, 800), new Vec2(1100, 800), 16));
+
+                AddChild(new Hints("ims.png", 750, 800, 150, 100));
+                AddChild(new Hints("a1.png", 850, 850, 200, 100));
 
                 Fan fan = new Fan(new Vec2(950, 250), new Vec2(1100, 250), new Vec2(1, 1), 500, 0.5f);
                 fan.RotateToAngle(90);
