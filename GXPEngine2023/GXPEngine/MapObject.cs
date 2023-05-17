@@ -23,6 +23,7 @@ public class MapObject : CircleBase
     private float delayAfterLine = 1000;
 
     bool lineBounce = false;
+    bool hasPlayed = false;
 
     Vec2 normal;
 
@@ -143,13 +144,11 @@ public class MapObject : CircleBase
                 lineBounce = true;
                 if (lineBounce)
                 {
-                    Console.WriteLine("Sound Playing");
-                    deathSoundChannel = deathSound.Play();
-                    deathSoundChannel.Volume = 0.1f;
+                    
                 }
                 if(!lineBounce)
                 {
-                    deathSoundChannel.Stop();
+
                 }
                 return;
             }
@@ -175,13 +174,13 @@ public class MapObject : CircleBase
         }
         if (pCol.other.owner is EndBlock)
         {
+            isMoving = false;
             //Console.WriteLine("EndBlock collision detected");
             lastCollisionTime = Time.time - lastCollisionTime;
-            levelComplete = true;            
+            levelComplete = true;
             if (levelComplete)
             {
-                endBlockSoundChannel = endBlockSound.Play();
-                endBlockSoundChannel.Volume = 10f;
+                endBlockSound.Play(false, 0, 0.7f);
             }
             else
             {

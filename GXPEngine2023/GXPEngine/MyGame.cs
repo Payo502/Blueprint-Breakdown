@@ -14,7 +14,7 @@ public class MyGame : Game
     Sound backgroundSound;
     SoundChannel backgroundSoundChannel;
 
-    List<Fan> AllFans = new List<Fan>();
+    List<Fan> OnlyFans = new List<Fan>();
     public MyGame() : base(1920, 1080, false, false)//, 1440, 810)
     {
         movers = new List<MapObject>();
@@ -27,7 +27,7 @@ public class MyGame : Game
     {
         DestroyAll();
         LoadLevel(startLevelNumber);
-        foreach (var fan in AllFans)
+        foreach (var fan in OnlyFans)
         {
             fan.StopFanSound();
         }
@@ -72,41 +72,41 @@ public class MyGame : Game
                 break;
 
             case 2:
-
+                //level 1
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
 
-                AddChild(new Hints("dht.png", 800, 230, 150, 100));
-                AddChild(new Hints("a1.png", 950, 250, 200, 100));
+                AddChild(new Hints("dht.png", 800, 230, 200, 150));
+
+                Hints arrow = new Hints("a1.png", 975, 250, 200, 100);
+                arrow.rotation = -45;
+                AddChild(arrow);
 
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                AddChild(new EndBlock(50, new Vec2(300, 500)));
-
                 AddChild(new BouncingPad(new Vec2(250, 600), new Vec2(400, 600)));
 
-                AddChild(new Hints("rm.png", 500, 600, 150, 100));
+                AddChild(new Hints("rm.png", 475, 600, 150, 100));
 
                 //AddChild(new Wall("wall.png", 600, 0, 100, 400));
 
-                AddChild(new Hints("tmo.png", 750, 850, 200, 100));
+                AddChild(new Hints("tmo.png", 650, 850, 200, 100));
 
-                
                 Fan fan1 = new Fan(new Vec2(800, 800), new Vec2(1000, 800), new Vec2(1, 1), 500, 1f);
-                AllFans.Add(fan1);
+                OnlyFans.Add(fan1);
                 AddChild(fan1);
-                //AddChild(new BouncingPad(new Vec2(700, 100), new Vec2(800, 100)));
 
                 AddChild(new BouncingPad(new Vec2(1200, 700), new Vec2(1350, 700)));
 
                 AddChild(new EndBlock(50, new Vec2(1650, 420)));
 
-                AddChild(new Hints("end.png", 1650, 580, 100, 50));
+                AddChild(new Hints("end.png", 1600, 550, 100, 50));
 
                 AddChild(new SecondBackground("Background_transparent.png"));
                 break;
-            case 2:
+
+            case 3:
                 //in between level screen
 
                 AddChild(new Background("levelCompleted.png"));
@@ -115,7 +115,8 @@ public class MyGame : Game
 
                 break;
 
-            case 3:
+            case 4:
+                //level 2
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
@@ -126,38 +127,35 @@ public class MyGame : Game
 
                 AddChild(new Wall("wall.png", 400, 700, 100, 500));
 
-                AddChild(new BouncingPad(new Vec2(375, 550), new Vec2(525, 550), 5));       
+                AddChild(new BouncingPad(new Vec2(375, 550), new Vec2(525, 550), 5));
 
                 //AddChild(new BouncingPad(new Vec2(500, 800), new Vec2(650, 800)));
 
                 AddChild(new Wall("wall.png", 750, 0, 150, 500));
 
-                AddChild(new Hints("uwu.png", 650, 300, 100, 100));
+                AddChild(new Hints("uwu.png", 600, 300, 200, 100));
 
                 AddChild(new BouncingPad(new Vec2(950, 800), new Vec2(1100, 800), 16));
 
-                AddChild(new Hints("ims.png", 750, 800, 150, 100));
-                AddChild(new Hints("a1.png", 850, 850, 200, 100));
+                AddChild(new Hints("ims.png", 750, 800, 200, 100));
 
                 Fan fan = new Fan(new Vec2(950, 250), new Vec2(1100, 250), new Vec2(1, 1), 500, 0.5f);
                 fan.RotateToAngle(90);
                 AddChild(fan);
+
                 Fan fan2 = new Fan(new Vec2(950, 250), new Vec2(1100, 250), new Vec2(1, 1), 500, 0.5f);
                 fan2.RotateToAngle(90);
-                AllFans.Add(fan2);
+                OnlyFans.Add(fan2);
                 AddChild(fan2);
 
                 AddChild(new Wall("wall.png", 1200, 500, 100, 500));
-
-                /*                Wall wall = new Wall("wall.png", 1900, 300, 100, 400);
-                                wall.rotation = 90;
-                                //AddChild(wall);*/
 
                 AddChild(new EndBlock(50, new Vec2(1650, 700)));
 
                 AddChild(new SecondBackground("Background_transparent.png"));
                 break;
-            case 4:
+
+            case 5:
                 // in between level screen
                 AddChild(new Background("levelCompleted.png"));
 
@@ -165,9 +163,8 @@ public class MyGame : Game
 
                 break;
 
-
-            case 5:
-
+            case 6:
+                //level 3
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
@@ -182,17 +179,20 @@ public class MyGame : Game
                 wall4.rotation = -90;
                 AddChild(wall4);
 
-                AddChild(new Hints("uwu.png", 300, 900, 100, 100));
+                AddChild(new Hints("useme.png", 350, 650, 200, 100));
 
                 AddChild(new BouncingPad(new Vec2(700, 800), new Vec2(850, 800), 20));
 
                 AddChild(new Wall("wall.png", 900, 600, 100, 400));
+
+                AddChild(new BouncingPad(new Vec2(875, 500), new Vec2(1025, 500), 10));
 
                 AddChild(new Wall("wall.png", 500, 0, 150, 550));
 
-                Wall wall2 = new Wall("wall.png", 1950, 600, 100, 400);
-                wall2.rotation = 90;
-                AddChild(wall2);
+                Fan fan4 = new Fan(new Vec2(1500, 300), new Vec2(1650, 300), new Vec2(1,1), 500, 0.7f);
+                fan4.RotateToAngle(180);
+                OnlyFans.Add(fan4);
+                AddChild(fan4);
 
 
                 AddChild(new EndBlock(50, new Vec2(1650, 800)));
@@ -201,58 +201,8 @@ public class MyGame : Game
 
                 break;
 
-            case 5:
 
-                AddChild(new Background("background.png"));
-
-                SetupWalls();
-
-                AddChild(new Claw(new Vec2(300, 300)));
-
-                Wall wall1 = new Wall("wall.png", 200, 600, 200, 400);
-                wall1.rotation = 90;
-                AddChild(wall1);
-
-                AddChild(new BouncingPad(new Vec2(700, 800), new Vec2(850, 800), 20));
-
-                BouncingPad bp1 = new BouncingPad(new Vec2(700, 0), new Vec2(850, 0));
-                bp1.RotateToAngle(180);
-                AddChild(bp1);
-
-                AddChild(new BouncingPad(new Vec2(250, 800), new Vec2(400, 800), 15));
-
-                AddChild(new Wall("wall.png", 900, 600, 100, 400));
-
-                /*BouncingPad bp2 = new BouncingPad(new Vec2(1700, 0), new Vec2(1850, 0));
-                bp2.RotateToAngle(-90);
-                AddChild(bp2);*/
-
-                AddChild(new BouncingPad(new Vec2(1600, 500), new Vec2(1750, 500)));
-
-                //Wall wall2 = new Wall("wall.png", 1950, 600, 100, 400);
-                //wall2.rotation = 90;
-                //AddChild(wall2);
-
-                Wall wall3 = new Wall("wall.png", 0, 700, 100, 400);
-                wall3.rotation = -90;
-                AddChild(wall3);
-
-                Fan fan3 = new Fan(new Vec2(1100, 300), new Vec2(1250, 300), new Vec2(1, 1), 500, 0.4f);
-                AllFans.Add(fan3);
-                fan3.RotateToAngle(180);
-                AddChild(fan3);
-
-                AddChild(new BouncingPad(new Vec2(1000, 800), new Vec2(1150, 800)));
-
-                AddChild(new Wall("wall.png", 1200, 700, 100, 400));
-
-                AddChild(new BouncingPad(new Vec2(1300, 800), new Vec2(1450, 800)));
-
-                AddChild(new EndBlock(50, new Vec2(1650, 800)));
-
-                AddChild(new SecondBackground("Background_transparent.png"));
-                break;
-            case 6:
+            case 7:
                 // final screen
                 AddChild(new Background("finalScreen.png"));
 
@@ -314,7 +264,7 @@ public class MyGame : Game
         startLevelNumber++;
         LoadLevel(startLevelNumber);
 
-        foreach (var fan in AllFans)
+        foreach (var fan in OnlyFans)
         {
             fan.StopFanSound();
         }
@@ -375,6 +325,16 @@ public class MyGame : Game
         if (Input.GetKeyDown(Key.SIX))
         {
             startLevelNumber = 6;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.SEVEN))
+        {
+            startLevelNumber = 7;
+            LoadLevel(startLevelNumber);
+        }
+        if (Input.GetKeyDown(Key.EIGHT))
+        {
+            startLevelNumber = 8;
             LoadLevel(startLevelNumber);
         }
     }
