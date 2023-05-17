@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\GXPEngine"
+    "\\GXPEngine",
+    "\\GXPEngine\\obj\\x86"
   ],
-  "SelectedNode": "\\GXPEngine\\Player.cs",
+  "SelectedNode": "\\GXPEngine\\MyGame.cs",
   "PreviewInSolutionExplorer": false
 }
