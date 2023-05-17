@@ -60,7 +60,7 @@ public class MyGame : Game
             case 1:
 
                 AddChild(new Background("tutorial.png"));
-                AddChild(new Button("Start_WithoutHover.png", "Start_Hover.png", new Vec2(width / 2, height / 2), 200, 100, "play"));
+                AddChild(new Button("Next_WithoutHover.png", "Next_Hover.png", new Vec2(1528, 800), 200, 100, "play"));
 
                 break;
 
@@ -93,10 +93,8 @@ public class MyGame : Game
 
                 AddChild(new Hints("end.png", 1650, 580, 100, 50));
 
-
                 AddChild(new SecondBackground("Background_transparent.png"));
                 break;
-
 
             case 3:
                 AddChild(new Background("background.png"));
@@ -138,6 +136,42 @@ public class MyGame : Game
                 break;
 
             case 4:
+
+                AddChild(new Background("background.png"));
+
+                SetupWalls();
+
+                AddChild(new Claw(new Vec2(300, 300)));
+
+                Wall walls = new Wall("wall.png", 200, 700, 200, 400);
+                walls.rotation = 90;
+                AddChild(walls);
+
+                Wall wall4 = new Wall("wall.png", 0, 800, 100, 400);
+                wall4.rotation = -90;
+                AddChild(wall4);
+
+                AddChild(new Hints("uwu.png", 300, 900, 100, 100));
+
+                AddChild(new BouncingPad(new Vec2(700, 800), new Vec2(850, 800), 20));
+
+                AddChild(new Wall("wall.png", 900, 600, 100, 400));
+
+                AddChild(new Wall("wall.png", 500, 0, 150, 550));
+
+                Wall wall2 = new Wall("wall.png", 1950, 600, 100, 400);
+                wall2.rotation = 90;
+                AddChild(wall2);
+
+
+                AddChild(new EndBlock(50, new Vec2(1650, 800)));
+
+                AddChild(new SecondBackground("Background_transparent.png"));
+
+                break;
+
+            case 5:
+
                 AddChild(new Background("background.png"));
 
                 SetupWalls();
@@ -152,7 +186,7 @@ public class MyGame : Game
 
                 BouncingPad bp1 = new BouncingPad(new Vec2(700, 0), new Vec2(850, 0));
                 bp1.RotateToAngle(180);
-                AddChild(bp1);                
+                AddChild(bp1);
 
                 AddChild(new BouncingPad(new Vec2(250, 800), new Vec2(400, 800), 15));
 
@@ -164,9 +198,9 @@ public class MyGame : Game
 
                 AddChild(new BouncingPad(new Vec2(1600, 500), new Vec2(1750, 500)));
 
-                Wall wall2 = new Wall("wall.png", 1950, 600, 100, 400);
-                wall2.rotation = 90;
-                AddChild(wall2);
+                //Wall wall2 = new Wall("wall.png", 1950, 600, 100, 400);
+                //wall2.rotation = 90;
+                //AddChild(wall2);
 
                 Wall wall3 = new Wall("wall.png", 0, 700, 100, 400);
                 wall3.rotation = -90;
@@ -185,6 +219,7 @@ public class MyGame : Game
                 AddChild(new EndBlock(50, new Vec2(1650, 800)));
 
                 AddChild(new SecondBackground("Background_transparent.png"));
+
                 break;
         }
     }
