@@ -158,6 +158,14 @@ public class Fan : EasyDraw
             }
         }
     }
+    public void StopFanSound()
+    {
+        if (fanSoundChannel != null)
+        {
+            fanSoundChannel.Stop();
+            isOn = false;
+        }
+    }
 
     void Update()
     {

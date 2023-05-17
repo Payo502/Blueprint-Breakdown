@@ -42,10 +42,6 @@ public class BouncingPad : EasyDraw
         AddSprite();
 
         //bouncePadSprite.rotation = initialAngle;
-
-        EasyDraw canvas = new EasyDraw(50, 50, false);
-        AddChild(canvas);
-
         bottomCenter.x = center.x;
         bottomCenter.y = center.y + bouncePadSprite.height;
 
@@ -105,6 +101,7 @@ public class BouncingPad : EasyDraw
     {
         bouncePadSprite.SetCycle(0, 8);
         bouncePadSprite.Animate(0.2f);
+
         if (bouncePadSprite.currentFrame >= bouncePadSprite.frameCount - 1)
         {
             bouncePadSprite.currentFrame = 0;
