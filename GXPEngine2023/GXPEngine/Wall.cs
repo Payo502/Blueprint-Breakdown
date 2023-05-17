@@ -48,7 +48,6 @@ public class Wall : Sprite
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
     }
-
     public void RemoveColliders()
     {
         foreach (Physics.Collider col in colliders)

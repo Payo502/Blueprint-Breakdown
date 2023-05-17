@@ -144,7 +144,7 @@ public class MyGame : Game
 
                 AddChild(new Claw(new Vec2(300, 300)));
 
-                Wall wall1 = new Wall("wall.png", 200, 600, 100, 400);
+                Wall wall1 = new Wall("wall.png", 200, 600, 200, 400);
                 wall1.rotation = 90;
                 AddChild(wall1);
 

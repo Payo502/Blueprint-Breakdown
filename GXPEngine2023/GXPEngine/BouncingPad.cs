@@ -74,8 +74,6 @@ public class BouncingPad : EasyDraw
         engine = ColliderManager.main;
         foreach (Physics.Collider col in colliders)
             engine.AddSolidCollider(col);
-
-
     }
 
     void AddSprite()
