@@ -33,10 +33,11 @@ public class EndBlock : CircleBase
     {
         rayLight = new AnimationSprite("animation_Glowing.png", 2, 2);
         rayLight.SetCycle(0, 1);
-        rayLight.SetOrigin(rayLight.width/2 + 100, rayLight.height / 2 -100);
-        rayLight.rotation =45;
+        rayLight.SetOrigin(rayLight.width/2 + 100, rayLight.height / 2 - 100);
+        rayLight.rotation = 45;
         AddChild(rayLight);
     }
+
     void AnimateRay()
     {
         rayLight.SetCycle(0, 4);

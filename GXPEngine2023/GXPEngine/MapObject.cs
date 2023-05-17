@@ -27,6 +27,14 @@ public class MapObject : CircleBase
     Vec2 normal;
 
     private Claw claw;
+
+    Sound endBlockSound;
+    SoundChannel endBlockSoundChannel;
+
+    Sound deathSound;
+    SoundChannel deathSoundChannel;
+
+
     public MapObject(int pRadius, Vec2 pPosition, Vec2 pVelocity = new Vec2(), bool moving = true) : base(pRadius, pPosition)
     {
         velocity = pVelocity;
@@ -35,6 +43,11 @@ public class MapObject : CircleBase
         _density = 0.9f;      
 
         AddSprite();
+
+        endBlockSound = new Sound("sucess.mp3",false,false);
+        deathSound = new Sound("DeathSound.mp3", false, false);
+
+
     }
 
     protected virtual void AddSprite()
@@ -128,6 +141,16 @@ public class MapObject : CircleBase
                 //velocity.Reflect(bounciness, pCol.normal);
                 MoveClaw(3);
                 lineBounce = true;
+                if (lineBounce)
+                {
+                    Console.WriteLine("Sound Playing");
+                    deathSoundChannel = deathSound.Play();
+                    deathSoundChannel.Volume = 0.1f;
+                }
+                if(!lineBounce)
+                {
+                    deathSoundChannel.Stop();
+                }
                 return;
             }
         }
@@ -154,7 +177,16 @@ public class MapObject : CircleBase
         {
             //Console.WriteLine("EndBlock collision detected");
             lastCollisionTime = Time.time - lastCollisionTime;
-            levelComplete = true;
+            levelComplete = true;            
+            if (levelComplete)
+            {
+                endBlockSoundChannel = endBlockSound.Play();
+                endBlockSoundChannel.Volume = 10f;
+            }
+            else
+            {
+                endBlockSoundChannel.Stop();
+            }
             MoveClaw(1);
         }
     }
@@ -170,6 +202,7 @@ public class MapObject : CircleBase
 
     void MoveToNextLevel()
     {
+
         //Console.WriteLine($"Time: {Time.time}, LastCollisionTime: {lastCollisionTime}, Delay: {delayAfterEndBlock}");
         if (levelComplete && Time.time  > lastCollisionTime + delayAfterEndBlock)
         {
@@ -187,6 +220,7 @@ public class MapObject : CircleBase
         {
             Console.WriteLine("Reseting Level....");
             ((MyGame)game).ResetCurrentLevel();
+            
             lineCollisionTime = 0;
             levelReset = false;
         }
